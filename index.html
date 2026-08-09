@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listen To - 음악 평가</title>
+    <style>
+        :root {
+            --bg-main: #121212;
+            --bg-card: #181818;
+            --bg-hover: #282828;
+            --bg-input: #2a2a2a;
+            --border-color: #333333;
+            --border-light: #555555;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --accent-color: #1db954;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background-color: #000000;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+            gap: 12px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+
+        .app-icon {
+            width: 36px;
+            height: 36px;
+            background: #000;
+            border: 2px solid var(--text-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .app-icon:hover {
+            background: #222;
+        }
+
+        .app-icon::before {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 18px;
+            border: 2px solid var(--text-primary);
+            border-bottom: none;
+            border-radius: 12px 12px 0 0;
+            top: 3px;
+        }
+
+        .app-icon span {
+            font-weight: 800;
+            font-size: 12px;
+            color: var(--text-primary);
+            margin-top: 5px;
+            z-index: 1;
+        }
+
+        .nav-title {
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+        }
+
+        .nav-title.active, .nav-title:hover {
+            color: var(--text-primary);
+            text-decoration: underline;
+            text-underline-offset: 6px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2px 10px;
+            max-width: 220px;
+            width: 100%;
+        }
+
+        .search-box input {
+            background: none;
+            border: none;
+            color: #fff;
+            padding: 6px 4px;
+            outline: none;
+            font-size: 13px;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .search-box button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 24px 16px;
+            flex: 1;
+            width: 100%;
+        }
+
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+
+        .carousel-container {
+            margin-bottom: 40px;
+        }
+
+        .horizontal-scroll {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+        }
+
+        .horizontal-scroll::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .horizontal-scroll::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+        }
+
+        .album-card {
+            min-width: 150px;
+            width: 150px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            position: relative;
+        }
+
+        .album-card:hover {
+            background-color: var(--bg-hover);
+            transform: translateY(-4px);
+        }
+
+        .album-cover-wrapper {
+            position: relative;
+            width: 100%;
+            height: 126px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: #222;
+        }
+
+        .album-cover-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-play-btn {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--text-primary);
+            color: #000;
+            border: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            z-index: 2;
+        }
+
+        .album-card:hover .card-play-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-play-btn:hover {
+            scale: 1.08;
+            background-color: #e6e6e6;
+        }
+
+        .album-name {
+            font-size: 14px;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .artist-name {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .artist-search-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .artist-search-card:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .artist-avatar-sm {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #333;
+        }
+
+        .spotify-artist-header {
+            position: relative;
+            background: linear-gradient(180deg, #2a2a2a 0%, #121212 100%);
+            border-radius: 12px;
+            padding: 36px 32px 24px 32px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: flex-end;
+            gap: 28px;
+            border: 1px solid var(--border-color);
+        }
+
+        .spotify-artist-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #222;
+            border: 2px solid var(--text-primary);
+            flex-shrink: 0;
+        }
+
+        .spotify-artist-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .spotify-artist-name {
+            font-size: 40px;
+            font-weight: 900;
+            line-height: 1.1;
+        }
+
+        .spotify-listeners {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .spotify-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .btn-play {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: var(--text-primary);
+            color: #000;
+            border: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-follow {
+            background: none;
+            border: 1px solid var(--border-light);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .popular-tracks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 40px;
+        }
+
+        .track-row {
+            display: flex;
+            align-items: center;
+            padding: 10px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .track-row:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .track-num {
+            width: 36px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .inline-play-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px 8px;
+            margin-right: 8px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .inline-play-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .track-title-block {
+            flex-grow: 1;
+        }
+
+        .track-title-text {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .track-sub-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .track-rating-text {
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            background: var(--bg-card);
+            padding: 12px 16px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .filter-select {
+            background: var(--bg-input);
+            color: #fff;
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 16px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .detail-header {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .detail-cover-wrapper {
+            width: 150px;
+            height: 150px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            background-color: #222;
+        }
+
+        .detail-cover-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .detail-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .detail-title {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .detail-artist {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        .detail-meta {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .writer-tag {
+            display: inline-block;
+            background-color: var(--bg-input);
+            color: var(--accent-color);
+            border: 1px solid var(--border-color);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            width: fit-content;
+        }
+
+        .rating-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 2px;
+        }
+
+        .stars {
+            color: var(--text-primary);
+            letter-spacing: 2px;
+        }
+
+        .info-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 18px;
+            margin-bottom: 24px;
+        }
+
+        .info-box h3 {
+            font-size: 15px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .album-summary-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #ddd;
+            margin-bottom: 12px;
+        }
+
+        .score-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        .score-item::before {
+            content: "└ ";
+            color: var(--text-secondary);
+        }
+
+        .image-attribution {
+            margin-top: 10px;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .track-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .track-item {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .track-header {
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .track-credits, .track-rating, .track-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            padding-left: 8px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 680px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 12px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .iframe-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .iframe-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .youtube-fallback {
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-input);
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            border: 1px solid var(--border-color);
+        }
+
+        .youtube-fallback-btn {
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* 하단 푸터 (비영리 및 공정 이용 방어 문구) */
+        footer {
+            background-color: #080808;
+            border-top: 1px solid var(--border-color);
+            padding: 24px 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #777777;
+            margin-top: auto;
+        }
+
+        footer p {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <div class="app-icon" id="btn-home-icon" title="메인 홈으로">
+                <span>Lt</span>
+            </div>
+            <div class="nav-title" id="nav-song">노래</div>
+        </div>
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="검색...">
+            <button id="search-btn">🔍</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 뷰 1: 메인 홈 -->
+        <main id="view-home" class="view active">
+            <div class="carousel-container">
+                <h2 class="section-title">최근 추가된 노래</h2>
+                <div class="horizontal-scroll" id="recent-list"></div>
+            </div>
+
+            <div class="carousel-container">
+                <h2 class="section-title">오늘의 추천</h2>
+                <div class="horizontal-scroll" id="recommend-list"></div>
+            </div>
+        </main>
+
+        <!-- 뷰 2: 노래 목록 / 검색 목록 -->
+        <main id="view-filter" class="view">
+            <div id="artist-profile-container"></div>
+
+            <div class="filter-bar">
+                <h2 style="font-size: 18px;" id="list-page-title">전체 노래</h2>
+                <select class="filter-select" id="filter-option">
+                    <option value="popular">인기순</option>
+                    <option value="recent">최신순</option>
+                    <option value="score">최선순 (평점순)</option>
+                </select>
+            </div>
+            <div class="album-grid" id="grid-list"></div>
+        </main>
+
+        <!-- 뷰 3: 아티스트 전용 화면 -->
+        <main id="view-artist" class="view">
+            <button class="back-btn" id="btn-artist-back">← 돌아가기</button>
+            <div id="artist-spotify-header"></div>
+            
+            <h2 class="section-title">트랙 평균 별점 순위</h2>
+            <div class="popular-tracks-list" id="artist-popular-tracks"></div>
+
+            <h2 class="section-title">디스코그래피 (등록 앨범)</h2>
+            <div class="album-grid" id="artist-albums-grid"></div>
+        </main>
+
+        <!-- 뷰 4: 앨범 상세 -->
+        <main id="view-detail" class="view">
+            <button class="back-btn" id="btn-back">← 돌아가기</button>
+            
+            <div class="detail-header">
+                <div class="detail-cover-wrapper" id="detail-cover-container"></div>
+                <div class="detail-info">
+                    <div class="detail-title" id="detail-title">앨범 이름</div>
+                    <div class="detail-artist" id="detail-artist">아티스트 명</div>
+                    <div class="detail-meta" id="detail-meta">EP, 장르</div>
+                    <div class="writer-tag" id="detail-writer">작성 리스너: -</div>
+                    <div class="rating-box">
+                        <span style="font-size: 13px; color: var(--text-secondary);">리스너 앨범 평점:</span>
+                        <span class="stars">★★★★☆</span>
+                        <span id="detail-rating" style="font-weight: bold;">(4.7)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 트랙별 평점 전, 앨범 총평 영역 -->
+            <div class="info-box">
+                <h3>리스너 앨범 총평 및 리뷰 요약</h3>
+                <div class="album-summary-text" id="detail-summary"></div>
+                <ul class="score-list" id="detail-scores"></ul>
+                <div class="image-attribution" id="detail-attribution">이미지 출처: Spotify / 서비스 제공사</div>
+            </div>
+
+            <div class="info-box" style="background: none; border: none; padding: 0;">
+                <h3 style="border: none; font-size: 16px; margin-bottom: 12px;">트랙 리스트 및 별점</h3>
+                <div class="track-list" id="detail-tracks"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 모달 -->
+    <div class="modal-overlay" id="player-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-track-title">재생 중...</div>
+                <button class="modal-close" id="btn-close-modal">✕</button>
+            </div>
+            <div class="iframe-wrapper">
+                <iframe id="youtube-player" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="youtube-fallback">
+                <span style="color: var(--text-secondary);">영상이 재생되지 않나요?</span>
+                <a href="#" target="_blank" class="youtube-fallback-btn" id="youtube-direct-link">
+                    YouTube에서 열기 ↗
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 하단 방어 문구 푸터 -->
+    <footer>
+        <p>※ 본 사이트는 비영리 음악 평가 및 리뷰 목적으로 앨범 커버 및 아티스트 사진을 인용하고 있습니다.</p>
+        <p>모든 이미지의 저작권은 각 음반 기획사, 아티스트 및 퍼블리셔에 있습니다.</p>
+    </footer>
+
+    <script>
+        const albums = [
+            {
+                id: 1,
+                title: "ICY",
+                artist: "MilliMax(밀리맥스)",
+                artistImgUrl: "https://lastfm-img.freetls.fastly.net/i/u/770x0/cc0c3816979a7742af3ae1250af9c7c0.jpg#cc0c3816979a7742af3ae1250af9c7c0",
+                coverUrl: "https://lastfm-img.freetls.fastly.net/i/u/770x0/84d6f7fd595e8c1a09b793f97f50a583.jpg#84d6f7fd595e8c1a09b793f97f50a583",
+                writer: "최이든", // 작성 리스너 OOO 필드 추가
+                type: "싱글",
+                genre: "Hip-Hop / Rap",
+                rating: 4.9,
+                popularity: 98,
+                releaseDate: "2025-12-19",
+                youtubeId: "AyMZ97cUGyY",
+                summary: "차가운 겨울 감성과 세련된 리듬감이 어우러진 MilliMax의 신곡. 귀에 감기는 직관적인 멜로디와 독보적인 톤이 매력적입니다.",
+                scores: [],
+                tracks: [
+                    { num: 1, title: "ICY", credits: "작곡 MilliMax, 작사 MilliMax", rating: 4.9, desc: "트렌디한 비트와 리드미컬한 플로우.", youtubeId: "AyMZ97cUGyY" }
+                ]
+            },
+        ];
+
+        const viewHome = document.getElementById('view-home');
+        const viewFilter = document.getElementById('view-filter');
+        const viewArtist = document.getElementById('view-artist');
+        const viewDetail = document.getElementById('view-detail');
+        
+        const navSong = document.getElementById('nav-song');
+        const btnHomeIcon = document.getElementById('btn-home-icon');
+        const btnBack = document.getElementById('btn-back');
+        const btnArtistBack = document.getElementById('btn-artist-back');
+        const filterSelect = document.getElementById('filter-option');
+        const searchInput = document.getElementById('search-input');
+        const searchBtn = document.getElementById('search-btn');
+        const artistProfileContainer = document.getElementById('artist-profile-container');
+
+        const playerModal = document.getElementById('player-modal');
+        const youtubePlayer = document.getElementById('youtube-player');
+        const modalTrackTitle = document.getElementById('modal-track-title');
+        const youtubeDirectLink = document.getElementById('youtube-direct-link');
+        const btnCloseModal = document.getElementById('btn-close-modal');
+
+        let activeAlbumList = [...albums];
+        let previousView = 'home'; // 이전 화면 기록용 변수
+
+        function normalizeText(text) {
+            return String(text).toLowerCase().replace(/\s+/g, '');
+        }
+
+        function playYoutube(e, title, youtubeId) {
+            if(e) {
+                e.stopPropagation(); // 이벤트 전파 방지 (부모 태그의 클릭 이벤트 방지)
+                if(e.preventDefault) e.preventDefault();
+            }
+            if (!youtubeId) {
+                alert('등록된 음원 영상이 없습니다.');
+                return;
+            }
+            modalTrackTitle.innerText = title;
+            youtubePlayer.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
+            youtubeDirectLink.href = `https://www.youtube.com/watch?v=${youtubeId}`;
+            playerModal.classList.add('active');
+        }
+
+        function closePlayer(e) {
+            if(e) {
+                e.stopPropagation();
+                if(e.preventDefault) e.preventDefault();
+            }
+            youtubePlayer.src = "";
+            playerModal.classList.remove('active');
+        }
+
+        btnCloseModal.addEventListener('click', closePlayer);
+        playerModal.addEventListener('click', (e) => {
+            if (e.target === playerModal) closePlayer(e);
+        });
+
+        function createCardHtml(album) {
+            return `
+                <div class="album-card" onclick="openDetail(${album.id})">
+                    <div class="album-cover-wrapper">
+                        <img class="album-cover-img" src="${album.coverUrl}" alt="${album.title}" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
+                        <button class="card-play-btn" title="음원 재생" onclick="playYoutube(event, '${album.artist} - ${album.title}', '${album.youtubeId}')">▶</button>
+                    </div>
+                    <div class="album-name">${album.title}</div>
+                    <div class="artist-name">${album.artist}</div>
+                </div>
+            `;
+        }
+
+        function initHomeView() {
+            const recentContainer = document.getElementById('recent-list');
+            const recommendContainer = document.getElementById('recommend-list');
+            
+            const recentSorted = [...albums].sort((a,b) => new Date(b.releaseDate) - new Date(a.releaseDate));
+            recentContainer.innerHTML = recentSorted.map(createCardHtml).join('');
+            
+            const recommendSorted = [...albums].sort((a,b) => b.popularity - a.popularity);
+            recommendContainer.innerHTML = recommendSorted.map(createCardHtml).join('');
+        }
+
+        function applyFilter() {
+            const filterValue = filterSelect.value;
+            if (filterValue === 'popular') {
+                activeAlbumList.sort((a, b) => b.popularity - a.popularity);
+            } else if (filterValue === 'recent') {
+                activeAlbumList.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
+            } else if (filterValue === 'score') {
+                activeAlbumList.sort((a, b) => b.rating - a.rating);
+            }
+            renderGrid(activeAlbumList);
+        }
+
+        function renderGrid(list) {
+            const gridContainer = document.getElementById('grid-list');
+            if(list.length === 0) {
+                gridContainer.innerHTML = `<div style="grid-column: 1/-1; color: var(--text-secondary); padding: 40px 0; text-align: center;">검색 결과가 없습니다.</div>`;
+            } else {
+                gridContainer.innerHTML = list.map(createCardHtml).join('');
+            }
+        }
+
+        function performSearch() {
+            const rawQuery = searchInput.value.trim();
+            const cleanQuery = normalizeText(rawQuery);
+            
+            if (!cleanQuery) return;
+
+            activeAlbumList = albums.filter(album => 
+                normalizeText(album.artist).includes(cleanQuery) || 
+                normalizeText(album.title).includes(cleanQuery)
+            );
+
+            const matchedArtistAlbum = albums.find(a => normalizeText(a.artist).includes(cleanQuery));
+
+            if (matchedArtistAlbum) {
+                const artistName = matchedArtistAlbum.artist;
+                const artistImgUrl = matchedArtistAlbum.artistImgUrl;
+                const artistAlbums = albums.filter(a => normalizeText(a.artist) === normalizeText(artistName));
+                const avgRating = (artistAlbums.reduce((sum, a) => sum + a.rating, 0) / artistAlbums.length).toFixed(1);
+
+                artistProfileContainer.innerHTML = `
+                    <div class="artist-search-card" onclick="openSpotifyArtistProfile('${artistName}')">
+                        <img class="artist-avatar-sm" src="${artistImgUrl}" alt="${artistName}" onerror="this.src='https://via.placeholder.com/60?text=Artist'">
+                        <div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">아티스트 프로필보기 →</div>
+                            <div style="font-size: 18px; font-weight: bold;">${artistName}</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-top:2px;">등록 앨범 ${artistAlbums.length}개 | 평균 별점 ★ ${avgRating}</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                artistProfileContainer.innerHTML = '';
+            }
+
+            document.getElementById('list-page-title').innerText = `'${rawQuery}' 검색 결과 (${activeAlbumList.length})`;
+            applyFilter();
+            switchView('filter');
+        }
+
+        function openSpotifyArtistProfile(artistName) {
+            const artistAlbums = albums.filter(a => normalizeText(a.artist) === normalizeText(artistName));
+            if(artistAlbums.length === 0) return;
+
+            const headerContainer = document.getElementById('artist-spotify-header');
+            const tracksContainer = document.getElementById('artist-popular-tracks');
+            const albumsGrid = document.getElementById('artist-albums-grid');
+
+            const artistAvgRating = (artistAlbums.reduce((sum, a) => sum + a.rating, 0) / artistAlbums.length).toFixed(1);
+            const artistImgUrl = artistAlbums[0].artistImgUrl;
+
+            headerContainer.innerHTML = `
+                <div class="spotify-artist-header">
+                    <img class="spotify-artist-img" src="${artistImgUrl}" alt="${artistName}" onerror="this.src='https://via.placeholder.com/130?text=Artist'">
+                    <div class="spotify-artist-details">
+                        <div class="spotify-artist-name">${artistName}</div>
+                        <div class="spotify-listeners">평균 별점 ★ ${artistAvgRating} • 등록 앨범 ${artistAlbums.length}개</div>
+                        <div class="spotify-controls">
+                            <button class="btn-play" onclick="playYoutube(event, '${artistName} 대표곡', '${artistAlbums[0].youtubeId}')">▶</button>
+                            <button class="btn-follow">팔로우</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            let allTracks = [];
+            artistAlbums.forEach(album => {
+                album.tracks.forEach(track => {
+                    allTracks.push({ ...track, artist: album.artist, albumTitle: album.title, albumId: album.id });
+                });
+            });
+            
+            allTracks.sort((a,b) => b.rating - a.rating);
+
+            tracksContainer.innerHTML = allTracks.map((t, index) => `
+                <div class="track-row" onclick="openDetail(${t.albumId})">
+                    <div class="track-num">${index + 1}위</div>
+                    <button class="inline-play-btn" title="재생" onclick="playYoutube(event, '${t.artist} - ${t.title}', '${t.youtubeId}')">▶</button>
+                    <div class="track-title-block">
+                        <div class="track-title-text">${t.title}</div>
+                        <div class="track-sub-text">${t.albumTitle}</div>
+                    </div>
+                    <div class="track-rating-text">★ ${t.rating}</div>
+                </div>
+            `).join('');
+
+            albumsGrid.innerHTML = artistAlbums.map(createCardHtml).join('');
+            switchView('artist');
+        }
+
+        function switchView(target) {
+            // 메인 화면 이외의 화면으로 갈 때 이전 화면을 저장해 둠
+            const currentActive = document.querySelector('.view.active');
+            if(currentActive && currentActive.id !== 'view-detail') {
+                previousView = currentActive.id.replace('view-', '');
+            }
+
+            viewHome.classList.remove('active');
+            viewFilter.classList.remove('active');
+            viewArtist.classList.remove('active');
+            viewDetail.classList.remove('active');
+
+            if (target === 'home') {
+                viewHome.classList.add('active');
+                navSong.classList.remove('active');
+            } else if (target === 'filter') {
+                viewFilter.classList.add('active');
+                navSong.classList.add('active');
+            } else if (target === 'artist') {
+                viewArtist.classList.add('active');
+            } else if (target === 'detail') {
+                viewDetail.classList.add('active');
+            }
+        }
+
+        function openDetail(albumId) {
+            const album = albums.find(a => a.id === albumId);
+            if(!album) return;
+            
+            document.getElementById('detail-title').innerText = album.title;
+            document.getElementById('detail-artist').innerText = album.artist;
+            document.getElementById('detail-meta').innerText = `${album.type} • ${album.genre} • ${album.releaseDate}`;
+            document.getElementById('detail-writer').innerText = `작성 리스너: ${album.writer || '익명'}`;
+            document.getElementById('detail-rating').innerText = `(${album.rating})`;
+            document.getElementById('detail-summary').innerText = `"${album.summary}"`;
+            
+            document.getElementById('detail-cover-container').innerHTML = `
+                <img class="detail-cover-img" src="${album.coverUrl}" alt="${album.title}" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
+                <button class="card-play-btn" style="opacity:1; transform:none;" title="대표 음원 재생" onclick="playYoutube(event, '${album.artist} - ${album.title}', '${album.youtubeId}')">▶</button>
+            `;
+
+            const scoreContainer = document.getElementById('detail-scores');
+            scoreContainer.innerHTML = album.scores.map(s => `<li class="score-item">${s}</li>`).join('');
+
+            const trackContainer = document.getElementById('detail-tracks');
+            trackContainer.innerHTML = album.tracks.map(t => `
+                <div class="track-item">
+                    <div>
+                        <div class="track-header">${t.num}. ${t.title}</div>
+                        <div class="track-credits">└ ${t.credits}</div>
+                        <div class="track-rating">└ 트랙 평점: ★★★★☆ (${t.rating})</div>
+                        <div class="track-desc">└ 코멘트: ${t.desc}</div>
+                    </div>
+                    <button class="btn-play" style="width:36px; height:36px; font-size:12px; flex-shrink:0;" title="재생" onclick="playYoutube(event, '${album.artist} - ${t.title}', '${t.youtubeId}')">▶</button>
+                </div>
+            `).join('');
+
+            switchView('detail');
+        }
+
+        btnHomeIcon.addEventListener('click', () => {
+            searchInput.value = '';
+            artistProfileContainer.innerHTML = '';
+            switchView('home');
+        });
+
+        navSong.addEventListener('click', () => {
+            searchInput.value = '';
+            artistProfileContainer.innerHTML = '';
+            document.getElementById('list-page-title').innerText = "전체 노래";
+            activeAlbumList = [...albums];
+            applyFilter();
+            switchView('filter');
+        });
+
+        // 돌아가기 버튼 클릭 시 이전 화면으로 가도록 수정
+        btnBack.addEventListener('click', () => switchView(previousView || 'filter'));
+        btnArtistBack.addEventListener('click', () => switchView('filter'));
+        
+        filterSelect.addEventListener('change', applyFilter);
+        searchBtn.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') performSearch();
+        });
+
+        initHomeView();
+    </script>
+</body>
+</html>
