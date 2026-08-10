@@ -753,7 +753,7 @@
                 <select class="filter-select" id="filter-option">
                     <option value="popular">인기순</option>
                     <option value="recent">최신순</option>
-                    <option value="score">최선순 (평점순)</option>
+                    <option value="score">별점순 (평점순)</option>
                 </select>
             </div>
             <div class="album-grid" id="grid-list"></div>
@@ -784,7 +784,7 @@
                     <div class="writer-tag" id="detail-writer">작성 리스너: -</div>
                     <div class="rating-box">
                         <span style="font-size: 13px; color: var(--text-secondary);">리스너 앨범 평점:</span>
-                        <span class="stars">★★★★☆</span>
+                        <span class="stars" id="detail-stars">★★★★★</span>
                         <span id="detail-rating" style="font-weight: bold;">(4.7)</span>
                     </div>
                 </div>
@@ -880,6 +880,28 @@
             return String(text).toLowerCase().replace(/\s+/g, '');
         }
 
+        // HTML 속성(onclick='...') 안에 안전하게 문자열을 삽입하기 위한 이스케이프 함수
+        // 아티스트/곡 이름에 따옴표(', ")가 포함되면 마크업이 깨지는 문제를 방지합니다.
+        function escapeAttr(text) {
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/'/g, '&#39;')
+                .replace(/"/g, '&quot;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
+        // 실제 평점(rating) 숫자에 맞춰 별 아이콘을 동적으로 생성 (기존엔 고정된 ★★★★☆ 문자열 사용)
+        function renderStars(rating) {
+            const clamped = Math.max(0, Math.min(5, Number(rating) || 0));
+            const full = Math.round(clamped);
+            let stars = '';
+            for (let i = 0; i < 5; i++) {
+                stars += i < full ? '★' : '☆';
+            }
+            return stars;
+        }
+
         function playYoutube(e, title, youtubeId) {
             if(e) {
                 e.stopPropagation(); // 이벤트 전파 방지 (부모 태그의 클릭 이벤트 방지)
@@ -910,11 +932,14 @@
         });
 
         function createCardHtml(album) {
+            const safeTitle = escapeAttr(album.title);
+            const safeArtist = escapeAttr(album.artist);
+            const safeYoutubeId = escapeAttr(album.youtubeId || '');
             return `
                 <div class="album-card" onclick="openDetail(${album.id})">
                     <div class="album-cover-wrapper">
-                        <img class="album-cover-img" src="${album.coverUrl}" alt="${album.title}" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
-                        <button class="card-play-btn" title="음원 재생" onclick="playYoutube(event, '${album.artist} - ${album.title}', '${album.youtubeId}')">▶</button>
+                        <img class="album-cover-img" src="${album.coverUrl}" alt="${safeTitle}" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
+                        <button class="card-play-btn" title="음원 재생" onclick="playYoutube(event, '${safeArtist} - ${safeTitle}', '${safeYoutubeId}')">▶</button>
                     </div>
                     <div class="album-name">${album.title}</div>
                     <div class="artist-name">${album.artist}</div>
@@ -972,10 +997,11 @@
                 const artistImgUrl = matchedArtistAlbum.artistImgUrl;
                 const artistAlbums = albums.filter(a => normalizeText(a.artist) === normalizeText(artistName));
                 const avgRating = (artistAlbums.reduce((sum, a) => sum + a.rating, 0) / artistAlbums.length).toFixed(1);
+                const safeArtistName = escapeAttr(artistName);
 
                 artistProfileContainer.innerHTML = `
-                    <div class="artist-search-card" onclick="openSpotifyArtistProfile('${artistName}')">
-                        <img class="artist-avatar-sm" src="${artistImgUrl}" alt="${artistName}" onerror="this.src='https://via.placeholder.com/60?text=Artist'">
+                    <div class="artist-search-card" onclick="openSpotifyArtistProfile('${safeArtistName}')">
+                        <img class="artist-avatar-sm" src="${artistImgUrl}" alt="${escapeAttr(artistName)}" onerror="this.src='https://via.placeholder.com/60?text=Artist'">
                         <div>
                             <div style="font-size: 12px; color: var(--text-secondary);">아티스트 프로필보기 →</div>
                             <div style="font-size: 18px; font-weight: bold;">${artistName}</div>
@@ -1002,15 +1028,17 @@
 
             const artistAvgRating = (artistAlbums.reduce((sum, a) => sum + a.rating, 0) / artistAlbums.length).toFixed(1);
             const artistImgUrl = artistAlbums[0].artistImgUrl;
+            const safeArtistName = escapeAttr(artistName);
+            const safeFirstYoutubeId = escapeAttr(artistAlbums[0].youtubeId || '');
 
             headerContainer.innerHTML = `
                 <div class="spotify-artist-header">
-                    <img class="spotify-artist-img" src="${artistImgUrl}" alt="${artistName}" onerror="this.src='https://via.placeholder.com/130?text=Artist'">
+                    <img class="spotify-artist-img" src="${artistImgUrl}" alt="${escapeAttr(artistName)}" onerror="this.src='https://via.placeholder.com/130?text=Artist'">
                     <div class="spotify-artist-details">
                         <div class="spotify-artist-name">${artistName}</div>
                         <div class="spotify-listeners">평균 별점 ★ ${artistAvgRating} • 등록 앨범 ${artistAlbums.length}개</div>
                         <div class="spotify-controls">
-                            <button class="btn-play" onclick="playYoutube(event, '${artistName} 대표곡', '${artistAlbums[0].youtubeId}')">▶</button>
+                            <button class="btn-play" onclick="playYoutube(event, '${safeArtistName} 대표곡', '${safeFirstYoutubeId}')">▶</button>
                             <button class="btn-follow">팔로우</button>
                         </div>
                     </div>
@@ -1026,17 +1054,22 @@
             
             allTracks.sort((a,b) => b.rating - a.rating);
 
-            tracksContainer.innerHTML = allTracks.map((t, index) => `
+            tracksContainer.innerHTML = allTracks.map((t, index) => {
+                const safeTrackArtist = escapeAttr(t.artist);
+                const safeTrackTitle = escapeAttr(t.title);
+                const safeTrackYoutubeId = escapeAttr(t.youtubeId || '');
+                return `
                 <div class="track-row" onclick="openDetail(${t.albumId})">
                     <div class="track-num">${index + 1}위</div>
-                    <button class="inline-play-btn" title="재생" onclick="playYoutube(event, '${t.artist} - ${t.title}', '${t.youtubeId}')">▶</button>
+                    <button class="inline-play-btn" title="재생" onclick="playYoutube(event, '${safeTrackArtist} - ${safeTrackTitle}', '${safeTrackYoutubeId}')">▶</button>
                     <div class="track-title-block">
                         <div class="track-title-text">${t.title}</div>
                         <div class="track-sub-text">${t.albumTitle}</div>
                     </div>
                     <div class="track-rating-text">★ ${t.rating}</div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
 
             albumsGrid.innerHTML = artistAlbums.map(createCardHtml).join('');
             switchView('artist');
@@ -1075,29 +1108,38 @@
             document.getElementById('detail-artist').innerText = album.artist;
             document.getElementById('detail-meta').innerText = `${album.type} • ${album.genre} • ${album.releaseDate}`;
             document.getElementById('detail-writer').innerText = `작성 리스너: ${album.writer || '익명'}`;
+            document.getElementById('detail-stars').innerText = renderStars(album.rating);
             document.getElementById('detail-rating').innerText = `(${album.rating})`;
             document.getElementById('detail-summary').innerText = `"${album.summary}"`;
             
+            const safeTitle = escapeAttr(album.title);
+            const safeArtist = escapeAttr(album.artist);
+            const safeYoutubeId = escapeAttr(album.youtubeId || '');
+
             document.getElementById('detail-cover-container').innerHTML = `
-                <img class="detail-cover-img" src="${album.coverUrl}" alt="${album.title}" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
-                <button class="card-play-btn" style="opacity:1; transform:none;" title="대표 음원 재생" onclick="playYoutube(event, '${album.artist} - ${album.title}', '${album.youtubeId}')">▶</button>
+                <img class="detail-cover-img" src="${album.coverUrl}" alt="${safeTitle}" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
+                <button class="card-play-btn" style="opacity:1; transform:none;" title="대표 음원 재생" onclick="playYoutube(event, '${safeArtist} - ${safeTitle}', '${safeYoutubeId}')">▶</button>
             `;
 
             const scoreContainer = document.getElementById('detail-scores');
             scoreContainer.innerHTML = album.scores.map(s => `<li class="score-item">${s}</li>`).join('');
 
             const trackContainer = document.getElementById('detail-tracks');
-            trackContainer.innerHTML = album.tracks.map(t => `
+            trackContainer.innerHTML = album.tracks.map(t => {
+                const safeTrackYoutubeId = escapeAttr(t.youtubeId || '');
+                const safeTrackTitle = escapeAttr(t.title);
+                return `
                 <div class="track-item">
                     <div>
                         <div class="track-header">${t.num}. ${t.title}</div>
                         <div class="track-credits">└ ${t.credits}</div>
-                        <div class="track-rating">└ 트랙 평점: ★★★★☆ (${t.rating})</div>
+                        <div class="track-rating">└ 트랙 평점: ${renderStars(t.rating)} (${t.rating})</div>
                         <div class="track-desc">└ 코멘트: ${t.desc}</div>
                     </div>
-                    <button class="btn-play" style="width:36px; height:36px; font-size:12px; flex-shrink:0;" title="재생" onclick="playYoutube(event, '${album.artist} - ${t.title}', '${t.youtubeId}')">▶</button>
+                    <button class="btn-play" style="width:36px; height:36px; font-size:12px; flex-shrink:0;" title="재생" onclick="playYoutube(event, '${safeArtist} - ${safeTrackTitle}', '${safeTrackYoutubeId}')">▶</button>
                 </div>
-            `).join('');
+            `;
+            }).join('');
 
             switchView('detail');
         }
