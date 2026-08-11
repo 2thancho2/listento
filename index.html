@@ -594,7 +594,7 @@
             margin-bottom: 6px;
         }
 
-        .track-credits, .track-rating, .track-desc {
+        .track-credits, .track-desc {
             font-size: 13px;
             color: var(--text-secondary);
             margin-top: 4px;
@@ -763,8 +763,8 @@
         <main id="view-artist" class="view">
             <button class="back-btn" id="btn-artist-back">← 돌아가기</button>
             <div id="artist-spotify-header"></div>
-            
-            <h2 class="section-title">트랙 평균 별점 순위</h2>
+
+            <h2 class="section-title">수록곡 리스트</h2>
             <div class="popular-tracks-list" id="artist-popular-tracks"></div>
 
             <h2 class="section-title">디스코그래피 (등록 앨범)</h2>
@@ -790,7 +790,7 @@
                 </div>
             </div>
 
-            <!-- 트랙별 평점 전, 앨범 총평 영역 -->
+            <!-- 앨범 총평 영역 (평점은 앨범에만 존재) -->
             <div class="info-box">
                 <h3>리스너 앨범 총평 및 리뷰 요약</h3>
                 <div class="album-summary-text" id="detail-summary"></div>
@@ -799,7 +799,7 @@
             </div>
 
             <div class="info-box" style="background: none; border: none; padding: 0;">
-                <h3 style="border: none; font-size: 16px; margin-bottom: 12px;">트랙 리스트 및 별점</h3>
+                <h3 style="border: none; font-size: 16px; margin-bottom: 12px;">트랙 리스트</h3>
                 <div class="track-list" id="detail-tracks"></div>
             </div>
         </main>
@@ -831,27 +831,93 @@
     </footer>
 
     <script>
+        /* ======================================================================
+         * 데이터 추가 가이드 (여기만 수정하면 됩니다)
+         * ======================================================================
+         *
+         * 1) 아티스트 추가
+         *    - 아래 `artists` 배열에 객체를 하나 추가합니다.
+         *    - id는 다른 아티스트와 겹치지 않는 숫자면 됩니다.
+         *    - 사진(imgUrl)은 아티스트당 "한 번만" 등록하므로, 앨범을 여러 개
+         *      추가해도 사진을 매번 다시 입력할 필요가 없고, 앨범마다 다른
+         *      사진 URL을 잘못 입력해서 깨지는 문제도 사라집니다.
+         *
+         *      { id: 3, name: "새아티스트", imgUrl: "https://..." }
+         *
+         * 2) 앨범 추가
+         *    - 아래 `albums` 배열에 객체를 하나 추가합니다.
+         *    - artistId에는 위에서 추가한(또는 기존) 아티스트의 id를 적습니다.
+         *    - rating은 "앨범 전체 평점"입니다 (0~5, 트랙별 평점은 없습니다).
+         *    - youtubeId는 앨범 카드/상세 페이지 상단의 "대표 재생 버튼"에서
+         *      쓰이는 링크이며, 트랙별 youtubeId와는 별개입니다.
+         *
+         *      {
+         *        id: 2,
+         *        artistId: 3,
+         *        title: "앨범명",
+         *        coverUrl: "https://...",
+         *        writer: "작성자",
+         *        type: "EP",
+         *        genre: "장르",
+         *        rating: 4.5,           // 앨범 평점 (유일한 평점)
+         *        popularity: 80,
+         *        releaseDate: "2026-01-01",
+         *        youtubeId: "영상ID",    // 앨범 대표 재생 링크
+         *        summary: "총평 텍스트",
+         *        scores: [],
+         *        tracks: [ ... ]          // 아래 3) 참고
+         *      }
+         *
+         * 3) 트랙 추가 (평점 없음, 유튜브 링크는 트랙마다 다르게 지정 가능)
+         *
+         *      {
+         *        num: 1,
+         *        title: "트랙명",
+         *        credits: "작곡/작사 정보",
+         *        desc: "코멘트",
+         *        youtubeId: "트랙 전용 영상ID"   // 앨범 youtubeId와 달라도 됨
+         *      }
+         * ====================================================================== */
+
+        const artists = [
+            {
+                id: 1,
+                name: "MilliMax(밀리맥스)",
+                imgUrl: "https://lastfm-img.freetls.fastly.net/i/u/770x0/cc0c3816979a7742af3ae1250af9c7c0.jpg#cc0c3816979a7742af3ae1250af9c7c0"
+            }
+        ];
+
         const albums = [
             {
                 id: 1,
+                artistId: 1,
                 title: "ICY",
-                artist: "MilliMax(밀리맥스)",
-                artistImgUrl: "https://lastfm-img.freetls.fastly.net/i/u/770x0/cc0c3816979a7742af3ae1250af9c7c0.jpg#cc0c3816979a7742af3ae1250af9c7c0",
                 coverUrl: "https://lastfm-img.freetls.fastly.net/i/u/770x0/84d6f7fd595e8c1a09b793f97f50a583.jpg#84d6f7fd595e8c1a09b793f97f50a583",
-                writer: "최이든", // 작성 리스너 OOO 필드 추가
+                writer: "최이든", // 작성 리스너
                 type: "싱글",
                 genre: "Hip-Hop / Rap",
-                rating: 4.9,
+                rating: 4.9, // 앨범 평점 (트랙에는 평점 없음)
                 popularity: 98,
                 releaseDate: "2025-12-19",
-                youtubeId: "AyMZ97cUGyY",
+                youtubeId: "AyMZ97cUGyY", // 앨범 대표 재생 링크
                 summary: "차가운 겨울 감성과 세련된 리듬감이 어우러진 MilliMax의 신곡. 귀에 감기는 직관적인 멜로디와 독보적인 톤이 매력적입니다.",
                 scores: [],
                 tracks: [
-                    { num: 1, title: "ICY", credits: "작곡 MilliMax, 작사 MilliMax", rating: 4.9, desc: "트렌디한 비트와 리드미컬한 플로우.", youtubeId: "AyMZ97cUGyY" }
+                    {
+                        num: 1,
+                        title: "ICY",
+                        credits: "작곡 MilliMax, 작사 MilliMax",
+                        desc: "트렌디한 비트와 리드미컬한 플로우.",
+                        youtubeId: "AyMZ97cUGyY" // 트랙 전용 링크 (앨범 링크와 다르게 지정 가능)
+                    }
                 ]
-            },
+            }
         ];
+
+        // ---- 아티스트 조회 헬퍼 (id로 이름/사진을 한 곳에서 관리) ----
+        function getArtist(artistId) {
+            return artists.find(a => a.id === artistId) || { id: -1, name: "알 수 없는 아티스트", imgUrl: "" };
+        }
 
         const viewHome = document.getElementById('view-home');
         const viewFilter = document.getElementById('view-filter');
@@ -891,7 +957,7 @@
                 .replace(/>/g, '&gt;');
         }
 
-        // 실제 평점(rating) 숫자에 맞춰 별 아이콘을 동적으로 생성 (기존엔 고정된 ★★★★☆ 문자열 사용)
+        // 실제 평점(rating) 숫자에 맞춰 별 아이콘을 동적으로 생성
         function renderStars(rating) {
             const clamped = Math.max(0, Math.min(5, Number(rating) || 0));
             const full = Math.round(clamped);
@@ -932,9 +998,11 @@
         });
 
         function createCardHtml(album) {
+            const artist = getArtist(album.artistId);
             const safeTitle = escapeAttr(album.title);
-            const safeArtist = escapeAttr(album.artist);
-            const safeYoutubeId = escapeAttr(album.youtubeId || '');
+            const safeArtist = escapeAttr(artist.name);
+            const safeYoutubeId = escapeAttr(album.youtubeId || ''); // 카드의 재생 버튼 = 앨범 대표 링크
+
             return `
                 <div class="album-card" onclick="openDetail(${album.id})">
                     <div class="album-cover-wrapper">
@@ -942,7 +1010,7 @@
                         <button class="card-play-btn" title="음원 재생" onclick="playYoutube(event, '${safeArtist} - ${safeTitle}', '${safeYoutubeId}')">▶</button>
                     </div>
                     <div class="album-name">${album.title}</div>
-                    <div class="artist-name">${album.artist}</div>
+                    <div class="artist-name">${artist.name}</div>
                 </div>
             `;
         }
@@ -985,26 +1053,26 @@
             
             if (!cleanQuery) return;
 
-            activeAlbumList = albums.filter(album => 
-                normalizeText(album.artist).includes(cleanQuery) || 
-                normalizeText(album.title).includes(cleanQuery)
-            );
+            activeAlbumList = albums.filter(album => {
+                const artist = getArtist(album.artistId);
+                return normalizeText(artist.name).includes(cleanQuery) ||
+                       normalizeText(album.title).includes(cleanQuery);
+            });
 
-            const matchedArtistAlbum = albums.find(a => normalizeText(a.artist).includes(cleanQuery));
+            const matchedArtist = artists.find(a => normalizeText(a.name).includes(cleanQuery));
 
-            if (matchedArtistAlbum) {
-                const artistName = matchedArtistAlbum.artist;
-                const artistImgUrl = matchedArtistAlbum.artistImgUrl;
-                const artistAlbums = albums.filter(a => normalizeText(a.artist) === normalizeText(artistName));
-                const avgRating = (artistAlbums.reduce((sum, a) => sum + a.rating, 0) / artistAlbums.length).toFixed(1);
-                const safeArtistName = escapeAttr(artistName);
+            if (matchedArtist) {
+                const artistAlbums = albums.filter(a => a.artistId === matchedArtist.id);
+                const avgRating = artistAlbums.length
+                    ? (artistAlbums.reduce((sum, a) => sum + a.rating, 0) / artistAlbums.length).toFixed(1)
+                    : '-';
 
                 artistProfileContainer.innerHTML = `
-                    <div class="artist-search-card" onclick="openSpotifyArtistProfile('${safeArtistName}')">
-                        <img class="artist-avatar-sm" src="${artistImgUrl}" alt="${escapeAttr(artistName)}" onerror="this.src='https://via.placeholder.com/60?text=Artist'">
+                    <div class="artist-search-card" onclick="openSpotifyArtistProfile(${matchedArtist.id})">
+                        <img class="artist-avatar-sm" src="${matchedArtist.imgUrl}" alt="${escapeAttr(matchedArtist.name)}" onerror="this.src='https://via.placeholder.com/60?text=Artist'">
                         <div>
                             <div style="font-size: 12px; color: var(--text-secondary);">아티스트 프로필보기 →</div>
-                            <div style="font-size: 18px; font-weight: bold;">${artistName}</div>
+                            <div style="font-size: 18px; font-weight: bold;">${matchedArtist.name}</div>
                             <div style="font-size: 12px; color: var(--text-secondary); margin-top:2px;">등록 앨범 ${artistAlbums.length}개 | 평균 별점 ★ ${avgRating}</div>
                         </div>
                     </div>
@@ -1018,8 +1086,11 @@
             switchView('filter');
         }
 
-        function openSpotifyArtistProfile(artistName) {
-            const artistAlbums = albums.filter(a => normalizeText(a.artist) === normalizeText(artistName));
+        // artistId를 받아 아티스트 프로필 화면을 렌더링 (이름 대신 id로 조회하므로
+        // 아티스트 이름에 특수문자가 있어도 onclick이 깨지지 않습니다)
+        function openSpotifyArtistProfile(artistId) {
+            const artist = getArtist(artistId);
+            const artistAlbums = albums.filter(a => a.artistId === artistId);
             if(artistAlbums.length === 0) return;
 
             const headerContainer = document.getElementById('artist-spotify-header');
@@ -1027,46 +1098,45 @@
             const albumsGrid = document.getElementById('artist-albums-grid');
 
             const artistAvgRating = (artistAlbums.reduce((sum, a) => sum + a.rating, 0) / artistAlbums.length).toFixed(1);
-            const artistImgUrl = artistAlbums[0].artistImgUrl;
-            const safeArtistName = escapeAttr(artistName);
-            const safeFirstYoutubeId = escapeAttr(artistAlbums[0].youtubeId || '');
+            const safeArtistName = escapeAttr(artist.name);
+            const representativeYoutubeId = escapeAttr(artistAlbums[0].youtubeId || '');
 
             headerContainer.innerHTML = `
                 <div class="spotify-artist-header">
-                    <img class="spotify-artist-img" src="${artistImgUrl}" alt="${escapeAttr(artistName)}" onerror="this.src='https://via.placeholder.com/130?text=Artist'">
+                    <img class="spotify-artist-img" src="${artist.imgUrl}" alt="${safeArtistName}" onerror="this.src='https://via.placeholder.com/130?text=Artist'">
                     <div class="spotify-artist-details">
-                        <div class="spotify-artist-name">${artistName}</div>
+                        <div class="spotify-artist-name">${artist.name}</div>
                         <div class="spotify-listeners">평균 별점 ★ ${artistAvgRating} • 등록 앨범 ${artistAlbums.length}개</div>
                         <div class="spotify-controls">
-                            <button class="btn-play" onclick="playYoutube(event, '${safeArtistName} 대표곡', '${safeFirstYoutubeId}')">▶</button>
+                            <button class="btn-play" onclick="playYoutube(event, '${safeArtistName} 대표곡', '${representativeYoutubeId}')">▶</button>
                             <button class="btn-follow">팔로우</button>
                         </div>
                     </div>
                 </div>
             `;
 
+            // 트랙에는 평점이 없으므로, 소속 앨범 평점 기준으로 정렬해서 보여줍니다.
             let allTracks = [];
             artistAlbums.forEach(album => {
                 album.tracks.forEach(track => {
-                    allTracks.push({ ...track, artist: album.artist, albumTitle: album.title, albumId: album.id });
+                    allTracks.push({ ...track, albumTitle: album.title, albumId: album.id, albumRating: album.rating });
                 });
             });
-            
-            allTracks.sort((a,b) => b.rating - a.rating);
+            allTracks.sort((a, b) => b.albumRating - a.albumRating || a.num - b.num);
 
             tracksContainer.innerHTML = allTracks.map((t, index) => {
-                const safeTrackArtist = escapeAttr(t.artist);
                 const safeTrackTitle = escapeAttr(t.title);
-                const safeTrackYoutubeId = escapeAttr(t.youtubeId || '');
+                const safeTrackYoutubeId = escapeAttr(t.youtubeId || ''); // 트랙 전용 재생 링크
+
                 return `
                 <div class="track-row" onclick="openDetail(${t.albumId})">
                     <div class="track-num">${index + 1}위</div>
-                    <button class="inline-play-btn" title="재생" onclick="playYoutube(event, '${safeTrackArtist} - ${safeTrackTitle}', '${safeTrackYoutubeId}')">▶</button>
+                    <button class="inline-play-btn" title="재생" onclick="playYoutube(event, '${safeArtistName} - ${safeTrackTitle}', '${safeTrackYoutubeId}')">▶</button>
                     <div class="track-title-block">
                         <div class="track-title-text">${t.title}</div>
                         <div class="track-sub-text">${t.albumTitle}</div>
                     </div>
-                    <div class="track-rating-text">★ ${t.rating}</div>
+                    <div class="track-rating-text">★ ${t.albumRating}</div>
                 </div>
             `;
             }).join('');
@@ -1103,9 +1173,10 @@
         function openDetail(albumId) {
             const album = albums.find(a => a.id === albumId);
             if(!album) return;
+            const artist = getArtist(album.artistId);
             
             document.getElementById('detail-title').innerText = album.title;
-            document.getElementById('detail-artist').innerText = album.artist;
+            document.getElementById('detail-artist').innerText = artist.name;
             document.getElementById('detail-meta').innerText = `${album.type} • ${album.genre} • ${album.releaseDate}`;
             document.getElementById('detail-writer').innerText = `작성 리스너: ${album.writer || '익명'}`;
             document.getElementById('detail-stars').innerText = renderStars(album.rating);
@@ -1113,8 +1184,8 @@
             document.getElementById('detail-summary').innerText = `"${album.summary}"`;
             
             const safeTitle = escapeAttr(album.title);
-            const safeArtist = escapeAttr(album.artist);
-            const safeYoutubeId = escapeAttr(album.youtubeId || '');
+            const safeArtist = escapeAttr(artist.name);
+            const safeYoutubeId = escapeAttr(album.youtubeId || ''); // 앨범 대표 재생 링크
 
             document.getElementById('detail-cover-container').innerHTML = `
                 <img class="detail-cover-img" src="${album.coverUrl}" alt="${safeTitle}" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
@@ -1126,14 +1197,13 @@
 
             const trackContainer = document.getElementById('detail-tracks');
             trackContainer.innerHTML = album.tracks.map(t => {
-                const safeTrackYoutubeId = escapeAttr(t.youtubeId || '');
+                const safeTrackYoutubeId = escapeAttr(t.youtubeId || ''); // 트랙 전용 재생 링크 (앨범 링크와 별개)
                 const safeTrackTitle = escapeAttr(t.title);
                 return `
                 <div class="track-item">
                     <div>
                         <div class="track-header">${t.num}. ${t.title}</div>
                         <div class="track-credits">└ ${t.credits}</div>
-                        <div class="track-rating">└ 트랙 평점: ${renderStars(t.rating)} (${t.rating})</div>
                         <div class="track-desc">└ 코멘트: ${t.desc}</div>
                     </div>
                     <button class="btn-play" style="width:36px; height:36px; font-size:12px; flex-shrink:0;" title="재생" onclick="playYoutube(event, '${safeArtist} - ${safeTrackTitle}', '${safeTrackYoutubeId}')">▶</button>
