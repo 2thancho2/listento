@@ -526,8 +526,52 @@
         }
 
         .stars {
-            color: var(--text-primary);
-            letter-spacing: 2px;
+            display: inline-flex;
+            gap: 4px;
+        }
+
+        .stars .star {
+            display: inline-block;
+            font-size: 18px;
+            opacity: 0;
+            transform: scale(0.3);
+            animation: starPop 0.3s ease forwards;
+        }
+
+        .stars .star:nth-child(1) { animation-delay: 0.1s; }
+        .stars .star:nth-child(2) { animation-delay: 0.25s; }
+        .stars .star:nth-child(3) { animation-delay: 0.4s; }
+        .stars .star:nth-child(4) { animation-delay: 0.55s; }
+        .stars .star:nth-child(5) { animation-delay: 0.7s; }
+
+        .stars .star.full {
+            color: #fff;
+        }
+
+        .stars .star.half {
+            background: linear-gradient(90deg, #fff 50%, #555 50%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stars .star.empty {
+            color: #555;
+        }
+
+        @keyframes starPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) rotate(-30deg);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.2) rotate(5deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
         }
 
         .info-box {
@@ -575,17 +619,19 @@
         .track-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 0;
+            margin-top: 12px;
         }
 
         .track-item {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 6px;
-            padding: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
         }
 
         .track-header {
@@ -599,6 +645,7 @@
             color: var(--text-secondary);
             margin-top: 4px;
             padding-left: 8px;
+            line-height: 1.5;
         }
 
         .modal-overlay {
@@ -795,7 +842,7 @@
                 <h3>리스너 앨범 총평 및 리뷰 요약</h3>
                 <div class="album-summary-text" id="detail-summary"></div>
                 <ul class="score-list" id="detail-scores"></ul>
-                <div class="image-attribution" id="detail-attribution">이미지 출처: Spotify / 서비스 제공사</div>
+                <div class="image-attribution" id="detail-attribution">이미지 출처: Spotify / 나무위키 / 서비스 제공사</div>
             </div>
 
             <div class="info-box" style="background: none; border: none; padding: 0;">
@@ -882,8 +929,8 @@
         const artists = [
             {
                 id: 1,
-                name: "MilliMax(밀리맥스)",
-                imgUrl: "https://lastfm-img.freetls.fastly.net/i/u/770x0/cc0c3816979a7742af3ae1250af9c7c0.jpg#cc0c3816979a7742af3ae1250af9c7c0"
+                name: "검정치마",
+                imgUrl: "https://i.namu.wiki/i/f91VAb37O4v7_emb91CyAuKSfX2T3_IbVnztALMj5BD9g3bft7dku33ciYyPfIdmVVSGRDSacFdJ-EDTp_InTRMI3fqQjMxvjEW86wkoPE9ZERY-XSZCyvruVEMx9pt-eJqxK2F_8VFBvrlfnTYisA.webp"
             }
         ];
 
@@ -891,24 +938,85 @@
             {
                 id: 1,
                 artistId: 1,
-                title: "ICY",
-                coverUrl: "https://lastfm-img.freetls.fastly.net/i/u/770x0/84d6f7fd595e8c1a09b793f97f50a583.jpg#84d6f7fd595e8c1a09b793f97f50a583",
-                writer: "최이든", // 작성 리스너
-                type: "싱글",
-                genre: "Hip-Hop / Rap",
-                rating: 4.9, // 앨범 평점 (트랙에는 평점 없음)
-                popularity: 98,
-                releaseDate: "2025-12-19",
-                youtubeId: "AyMZ97cUGyY", // 앨범 대표 재생 링크
-                summary: "차가운 겨울 감성과 세련된 리듬감이 어우러진 MilliMax의 신곡. 귀에 감기는 직관적인 멜로디와 독보적인 톤이 매력적입니다.",
-                scores: [],
+                title: "TEAM BABY",
+                coverUrl: "https://i.namu.wiki/i/gtkT52zZT4cyj3zVXwMTU4GBRDHe1gLy4KclVWhZuVpfLohK84-AaVKgMXoZGE8HJkmLf1U6aY-vlbqdMFgMht1IjdE4paHrkghpNjkzjxufyNfm0ZIcZRmp32JYjdvU9OMgDx3q9Z4UAAjZ7ZF-Qg.webp",
+                writer: "김민종", // 작성 리스너
+                type: "앨범",
+                genre: "인디 록",
+                rating: 4.5, // 앨범 평점 (트랙에는 평점 없음)
+                popularity: 90,
+                releaseDate: "2017-05-30",
+                youtubeId: "6Y1P8bI_jPI", // 앨범 대표 재생 링크
+                summary: "있는 그대로의 사랑과 순수한 애정이 어우러진 세상에서 가장 로맨틱한 러브레터",
+                scores: [
+                    "2018 제15회 한국대중음악상 올해의 음반 부문 노미네이트",
+                    "2018 제15회 한국대중음악상 최우수 모던록 음반 부문 노미네이트",
+                    "EBS 스페이스 공감 선정 '2000년대 한국대중음악 명반 100'",
+                    "2017년 6월 벅스(Bugs) 이달의 앨범 선정"
+                ],
                 tracks: [
                     {
                         num: 1,
-                        title: "ICY",
-                        credits: "작곡 MilliMax, 작사 MilliMax",
-                        desc: "트렌디한 비트와 리드미컬한 플로우.",
-                        youtubeId: "AyMZ97cUGyY" // 트랙 전용 링크 (앨범 링크와 다르게 지정 가능)
+                        title: "난 아니에요",
+                        credits: "작곡 조휴일, 작사 조휴일",
+                        desc: "난 아니에요는 앨범 < TEAM BABY >에서 유일하게 연인들의 사랑이 아닌 자기애를 다룬 곡이다. '자신만의 소박한 음악을 하고 싶다'라는 조휴일의 음악적 가치관이 드러나있으며, '해랑사 을신당는 나'(거꾸로 읽으면 나는 당신을 사랑해)라는 연인들의 사랑을 다룬 구절도 존재한다.",
+                        youtubeId: "H25F7LHw3bk" // 트랙 전용 링크 (앨범 링크와 다르게 지정 가능)
+                    },
+                    {
+                        num: 2,
+                        title: "Big Love",
+                        credits: "작곡 조휴일, 작사 조휴일",
+                        desc: "애인에 대한 절대적인 신뢰와 사랑을 표현한 곡. \"내 사랑은 자로 잰 듯이 반듯해\" 라는 구절로 한 치의 오차도 없는 올곧은 사랑을 표현했다. 첫번째 트랙인 <난 아니에요>의 종반부에서 드럼 소리가 나오는데, 이 드럼 소리는 바로 다음 트랙인 < Big Love > 와 이어진다.",
+                        youtubeId: "QJ4fmVJOuxU" // 트랙 전용 링크 (앨범 링크와 다르게 지정 가능)
+                    },
+                    {
+                        num: 3,
+                        title: "Diamnond",
+                        credits: "작곡 조휴일, 작사 조휴일",
+                        desc: "권태기가 찾아온 연인들의 이야기를 담은 곡. \"변하지 않는건 다이아몬드 하고 널 사랑하는 나밖에는 없다고\" 라는 구절로 권태기의 계절이 왔지만 자신의 사랑은 변하지 않았다는 것을 표현하고 있다.",
+                        youtubeId: "BNLiso1eH28" // 트랙 전용 링크 (앨범 링크와 다르게 지정 가능)
+                    },
+                    {
+                        num: 4,
+                        title: "Love is all",
+                        credits: "작곡 조휴일, 작사 조휴일",
+                        desc: "완벽하지는 않아도 서로를 진심으로 사랑하는 연인들의 이야기를 담은 곡.  완벽하지 않은 사랑도 서로가 서로의 부족한 점을 보완해준다면 완벽한 사랑이 될 수 있다는 뜻을 담고 있다. 앨범 < THIRSTY >에서 오마주가 되는 곡이기도 하다.",
+                        youtubeId: "lOSF2vQDPiQ" // 트랙 전용 링크 (앨범 링크와 다르게 지정 가능)
+                    },
+                    {
+                        num: 5,
+                        title: "내 고향 서울엔",
+                        credits: "작곡 조휴일, 작사 조휴일",
+                        desc: "자신의 고향, 서울에 대한 그리움을 표현한 곡. 가사 자체는 서울에 대한 사랑을 표현하고 있지만, 헤어진 연인들의 모습도 표현하고 있다. 이는 \"내 고향 서울엔 아직 눈이 와요 쌓여도 난 그대로 둘거에요\" 라는 구절에서 드러나는데, \"내 고향 서울\"을 \"내 마음\"으로, \"눈\"을 \"슬픔\"으로 해석하면 \"내 마음은 아직도 슬퍼요, 이 슬픔으로라도 당신을 기억하고 싶습니다.\" 라고 해석할 수 있다.",
+                        youtubeId: "bGd-TMFM67I" // 트랙 전용 링크 (앨범 링크와 다르게 지정 가능)
+                    },
+                    {
+                        num: 6,
+                        title: "폭죽과 풍선들",
+                        credits: "작곡 조휴일, 작사 조휴일",
+                        desc: "바뀌지 않는 사랑을 표현한 곡. 지금 우리의 사랑은 풍선처럼 언제 떠나갈지 모르는 사랑이 아니라 폭죽처럼 한 순간일지 몰라도 그 후의 여운마저 즐길 수 있는 아름다운 사랑임을 말하고 있다. < Love is all >과 마찬가지로 앨범 < THIRSTY >에서 오마주 된다.",
+                        youtubeId: "Rvvesag40Sk" // 트랙 전용 링크 (앨범 링크와 다르게 지정 가능)
+                    },
+                    {
+                        num: 7,
+                        title: "한시 오분(1:05",
+                        credits: "작곡 조휴일, 작사 조휴일",
+                        desc: "너만을 사랑하겠다는 순수한 사랑을 표현하는 가사로 이루어진 곡. \"이젠 한시 오분 멈춰있는 시계처럼 너 하나만 봐\" 라는 구절로 자신의 마음의 시침과 분침이 포개진 상태로 멈춰 너 하나만 바라보게 되었다는걸 시적으로 나타내고 있다. \"남들이 아니라는 것도 상관없지 우린 같은 템포, 다른 노래인 거야\" 라는 구절은 다른 것에 영향을 받지 않는 사랑과, 서로 다른 사람이지만 같은 시간, 공간에서 서로를 나누는 아름다운 사랑을 노래한다.",
+                        youtubeId: "-_r_Y5nuHlo" // 트랙 전용 링크 (앨범 링크와 다르게 지정 가능)
+                    },
+                    {
+                        num: 8,
+                        title: "나랑 아니면",
+                        credits: "작곡 조휴일, 작사 조휴일",
+                        desc: "잔잔한 멜로디와 담담한 목소리가 돋보이는 곡이다. \"나랑 아니면 누구랑 사랑 할 수 있겠니\" 라는 구절에서 자신을 떠나지 말라는 간절한 바램이 드러난다. \"아무렇지 않게 넌 내게 말했지 날 위해 죽을 수도 죽일 수도 있다고\" 라는 구절에서는 \"너\"는 \"나\"를 위해서는 무엇이든 할 수 있다며 자신의 사랑을 표현하는 모습이 드러난다.",
+                        youtubeId: "c88_wmVua3s" // 트랙 전용 링크 (앨범 링크와 다르게 지정 가능)
+                    },
+                    {
+                        num: 9,
+                        title: "혜야",
+                        credits: "작곡 조휴일, 작사 조휴일",
+                        desc: "검정치마(조휴일)의 사랑이 표현된 노래이다. 곡 제목 <혜야>는 조휴일의 와이프 본명 김신혜에서 영감을 받아 만들어진 것이며, 곡 자체도 조휴일이 와이프 김신혜에게 바치는 곡이다. \"새벽에 밟으면 4시간 반\"은 두 사람이 결혼하기 전, 조휴일이 여자친구인 김신혜를 보러가기 위해 새벽에 차를 타고 부산으로 가는 모습을 표현한 구절이다(김신혜가 부산에 거주했기 때문이다). 조휴일이 직접 밝히길, 실제로는 차를 타고 가면 3시간 정도만 걸리지만 가사에서 4시간 반이 걸린다고 표현한 이유는 마음의 거리까지 포함하면 그녀를 만나러 가기까지의 거리가 3시간보다 길게 느껴졌기 때문이라고 한다.",
+                        youtubeId: "B5cvbwOmfY02" // 트랙 전용 링크 (앨범 링크와 다르게 지정 가능)
                     }
                 ]
             }
@@ -958,14 +1066,22 @@
         }
 
         // 실제 평점(rating) 숫자에 맞춰 별 아이콘을 동적으로 생성
+        // 반개별 지원: 0.5 단위로 반쪽 별 표시
         function renderStars(rating) {
             const clamped = Math.max(0, Math.min(5, Number(rating) || 0));
-            const full = Math.round(clamped);
-            let stars = '';
+            const full = Math.floor(clamped);
+            const hasHalf = (clamped % 1) >= 0.5;
+            let html = '';
             for (let i = 0; i < 5; i++) {
-                stars += i < full ? '★' : '☆';
+                let cls = 'star empty';
+                if (i < full) {
+                    cls = 'star full';
+                } else if (i === full && hasHalf) {
+                    cls = 'star half';
+                }
+                html += `<span class="${cls}">★</span>`;
             }
-            return stars;
+            return html;
         }
 
         function playYoutube(e, title, youtubeId) {
@@ -1179,7 +1295,7 @@
             document.getElementById('detail-artist').innerText = artist.name;
             document.getElementById('detail-meta').innerText = `${album.type} • ${album.genre} • ${album.releaseDate}`;
             document.getElementById('detail-writer').innerText = `작성 리스너: ${album.writer || '익명'}`;
-            document.getElementById('detail-stars').innerText = renderStars(album.rating);
+            document.getElementById('detail-stars').innerHTML = renderStars(album.rating);
             document.getElementById('detail-rating').innerText = `(${album.rating})`;
             document.getElementById('detail-summary').innerText = `"${album.summary}"`;
             
