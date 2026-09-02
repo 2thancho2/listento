@@ -41,7 +41,7 @@ const albums = [
         id: 1,
         artistId: 1,
         title: "TEAM BABY",
-        coverUrl: "https://i.namu.wiki/i/hvE2c6LejUdEs3YqjmkVKjofpgJe_KtD2KhS32L9Q_H8CxmQIPV5Q9DoBPEnu703yxspC72gt59urZ9tx56rxtDyUgWmGU1Tk7oYljnpN860EMEdspa8IkbwGkuBsSEHpSYKRq8Y3hDUyRvdVlxeYg.webp",
+        coverUrl: "https://i.scdn.co/image/ab67616d0000b27310b3ebc65d2f65964cf461d8",
         writer: "김민종", // 작성 리스너
         type: "앨범",
         genre: "인디 록",
