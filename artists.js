@@ -15,7 +15,7 @@ const artists = [
     {
         id: 1,
         name: "검정치마",
-        imgUrl: "https://i.namu.wiki/i/G_AcjijueC6IJ0dUMLC2WDGkgcohd4tyPUFlTLwEb4wzivWuHUYwY7_JRbit_KxVh8cshaIwEok_aBLWJpFvcZ1R0K5-4oRuHMbXZG_fpzs7NVGpTR_75ZzavMHUeGxqWK9BlnRJsOXrwT8uLTM10Q.webp"
+        imgUrl: "https://i.namu.wiki/i/tBu9I0SXuXC3969ofx33QzRYgXYRIHXJv2Vvbt_19XDHwWVj4zGLR75BWFWrg68oOuZn2ngg68k6iRAhQQFu2m267eICLlSk4o5ppJ2UHZJ6LEio8FlNaa8gp8Jtwsf8tGiyyTAJ5KNHZa2S_vXeQA.webp"
     },
     {
         id: 2,
