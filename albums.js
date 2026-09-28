@@ -299,7 +299,7 @@ const albums = [
         artistId: 4,
         title: "Low Rider",
         coverUrl: "https://i.namu.wiki/i/Uge1ssBKoiC4CFWYnsGPv_5PFgD4LIkMa6ZoqGzl6NhrHvcB1SRjAm91vrRrcOREwb2Nvka-kVdbeukZ2XlMXlC5gRpzq9fiPMs8cskkQrJLLmqS-umm2gQdGlMq28uzfev7UCsXvqGQpwoJjkIRZA.webp",
-        writer: "김도영, 최이든", // 작성 리스너
+        writer: "김도영 최이든", // 작성 리스너
         type: "싱글",
         genre: "Hip-Hop / Rap",
         rating: 4.0, // 앨범 평점 (트랙에는 평점 없음)
