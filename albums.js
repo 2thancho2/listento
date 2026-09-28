@@ -190,7 +190,8 @@ const albums = [
         youtubeId: "WnX3h7RnaGU", // 앨범 대표 재생 링크
         summary: "그동안 컴필레이션 형태의 결과물을 내놓던 바밍타이거가 처음으로 '팀'으로서 완성한 정규 앨범이다. 펑크, 힙합, 아트팝을 종잡을 수 없이 넘나들면서도 11인 크루 각자의 개성을 지우지 않고, 오히려 그 이질감 자체를 앨범의 정체성으로 삼은 점이 인상적이다. 'SEXY NUKIM', 'Trust Yourself', 'SOS' 같은 선공개곡들이 앨범 안에서 각각의 자리를 찾으며 전체 흐름에 자연스럽게 녹아들고, 인터루드 트랙들이 곡과 곡 사이의 급격한 장르 전환을 매끄럽게 이어주는 구조적 설계도 돋보인다. 다만 워낙 많은 인물과 색깔이 한 앨범에 밀집된 탓에 후반부로 갈수록 다소 산만하게 흩어지는 인상을 주는 구간이 있어, 완벽한 유기성까지는 도달하지 못했다. 그럼에도 케이팝이라는 틀 안에서 이만큼 이질적이고 대담한 실험을 설득력 있게 밀어붙인 사례는 드물다는 점에서, 장르 팬을 넘어 대중적으로도 추천할 만한 앨범이다.",
         scores: [
-            
+            "수록곡 'SEXY NUKIM (Feat. RM of BTS)'이 2023년 한국 힙합 어워즈에서 '올해의 뮤직비디오'와 '올해의 콜라보레이션'수상"
+            "수록곡 'SEXY NUKIM (Feat. RM of BTS)'이 빌보드 '월드 디지털 송 세일즈' 차트 1위를 기록"
         ],
         tracks: [
             {
@@ -294,8 +295,8 @@ const albums = [
         ]
     },
     {
-        id: 3,
-        artistId: 3,
+        id: 4,
+        artistId: 4,
         title: "Low Rider",
         coverUrl: "https://i.namu.wiki/i/Uge1ssBKoiC4CFWYnsGPv_5PFgD4LIkMa6ZoqGzl6NhrHvcB1SRjAm91vrRrcOREwb2Nvka-kVdbeukZ2XlMXlC5gRpzq9fiPMs8cskkQrJLLmqS-umm2gQdGlMq28uzfev7UCsXvqGQpwoJjkIRZA.webp",
         writer: "최이든", // 작성 리스너
