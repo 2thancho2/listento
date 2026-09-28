@@ -220,7 +220,7 @@ const albums = [
                 title: "Bodycoke",
                 credits: "작사: 바밍타이거 / 작곡: 바밍타이거",
                 desc: "탄산이 터지는 듯한 팝적인 질감과 그로테스크한 가사가 기묘하게 공존하는 트랙이다. 중독적인 후렴이 가볍게 흡수되면서도, 그 이면에 자리한 냉소적인 태도가 곡을 단순한 팝송 이상으로 만든다.",
-                youtubeId: "msJYFVPmleA" // 트랙 전용 링크 (앨범 링크와 다르게 지정 가능)
+                youtubeId: "msJYFVPm1eA" // 트랙 전용 링크 (앨범 링크와 다르게 지정 가능)
             },
             {
                 num: 5,
@@ -299,7 +299,7 @@ const albums = [
         artistId: 4,
         title: "Low Rider",
         coverUrl: "https://i.namu.wiki/i/Uge1ssBKoiC4CFWYnsGPv_5PFgD4LIkMa6ZoqGzl6NhrHvcB1SRjAm91vrRrcOREwb2Nvka-kVdbeukZ2XlMXlC5gRpzq9fiPMs8cskkQrJLLmqS-umm2gQdGlMq28uzfev7UCsXvqGQpwoJjkIRZA.webp",
-        writer: "최이든", // 작성 리스너
+        writer: "김도영, 최이든", // 작성 리스너
         type: "싱글",
         genre: "Hip-Hop / Rap",
         rating: 4.0, // 앨범 평점 (트랙에는 평점 없음)
