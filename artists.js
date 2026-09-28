@@ -21,5 +21,35 @@ const artists = [
         id: 2,
         name: "려진",
         imgUrl: "https://i.namu.wiki/i/N1Fq2G-EHZoKsGQ9nX-Ea-MGMfri1iIClQ12u2-_iXEjY6LJ77cjplkZA2SjYWvVIEUpodtg_pky_bilF9d22GbTQlgqCz8ZmstLglw7qd2lsYxBz0FI9R9aVRx8baThLv994Vlk59Wog8yR_9E7Xw.webp"
+    },
+    {
+        id: 3,
+        name: "바밍타이거",
+        imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVTet1chiVD-KydCkzC5a8XrS6EcKcNgOu57we8ODLlQ&s=10"
+    },
+    {
+        id: 4,
+        name: "YF",
+        imgUrl: "https://i.namu.wiki/i/nGZs1QSlFk-PMPX6BUSkE_2FI64CSELQxrFfmHoQaZtqH6i8Ku64rGU1LIculK9lKcrOe3kyNd0Lknf6vqobU6qIgyG3emWJNtfsGlCf-cukAC85lEI0mYyQVJ7iOi7RHUq572PjXnV_e6InA9TVVg.webp"
+    },
+    {
+        id: 5,
+        name: "잔나비",
+        imgUrl: "https://i.namu.wiki/i/E1_51zX6vV0NA4nQ71ZBW-1LNvAGuKwKtAUwtwLuujOqq-_BJW7LLM8AoQBBsnaEM1oCqqmFpBlpkUa2lJx1vvP_yh9uN50QL7UmM8m0AVt0nPZfh325JCYB5R7-YvjCsYYtFA1RUrHOMa-1ql1JPA.webp"
+    },
+    {
+        id: 6,
+        name: "창모",
+        imgUrl: "https://i.namu.wiki/i/k5rXQqj6YW5xiC72SPcDORetNcRQwjvS-NY_GedzFLTYwRJZItaBV2cFs2reMGqanze-hO9wjvmTG9l_iQyYaLTErVSJZD486sYOe5Jn4Ia4y3wel-QZ-M8zmSw88eHHfhGgEJRecITRn-Rl2VKonw.webp"
+    },
+    {
+        id: 7,
+        name: "Parannoul",
+        imgUrl: "https://i.namu.wiki/i/1TJRqTnseNFE20XZ6tGQ5VqaUG4dChYgbt1ChVJKbnpB9vKtcsRB52uQ8QrJH4npqtswitnFrjNGO7LDJyVWvAHrdiUQEbRKItl4UYwqntgHsOXPbwHlYoyrb4JHuHeoxrsE-mFku7GrbZzj_U225A.webp"
+    },
+    {
+        id: 8,
+        name: "저스디스",
+        imgUrl: "https://i.namu.wiki/i/wGdlEsTpKmqTmIj9Qyf-fV2hDO6KFQMLaY8VpFMcZ-kBLqVgkdSoznq8n6_plx95zoe9CiwA7-6sIy1aE8JvepEYG-jf4HRTORhIBmIZSAOeYoZous5V_HCtJ-gaWXKOUuv5wIvOhRQqzCcdRhdoiw.webp"
     }
 ];
