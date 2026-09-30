@@ -51,5 +51,10 @@ const artists = [
         id: 8,
         name: "저스디스",
         imgUrl: "https://i.namu.wiki/i/wGdlEsTpKmqTmIj9Qyf-fV2hDO6KFQMLaY8VpFMcZ-kBLqVgkdSoznq8n6_plx95zoe9CiwA7-6sIy1aE8JvepEYG-jf4HRTORhIBmIZSAOeYoZous5V_HCtJ-gaWXKOUuv5wIvOhRQqzCcdRhdoiw.webp"
-    }
+    },
+    {
+        id: 9,
+        name: "OSUN",
+        imgUrl: "https://i.namu.wiki/i/oJrFJs7VYomEw9PBdsKP_4HG8vh6V65Ba_-Rvov7IDvqqhEeCN0FA1-BL-VRBsj3mflsCltvLoYfvNyPYp8hKmf_E0POQ1wafhAgtro4pWGNCbdl4a5f7qM7f3vOVos_T-FTWGBsGwssniJVJrFVzA.webp"
+    },   
 ];
