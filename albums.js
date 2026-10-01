@@ -613,7 +613,7 @@ const albums = [
         type: "싱글",
         genre: "Ballad",
         rating: 3.5,
-        popularity: 80,
+        popularity: 70,
         releaseDate: "2022.08.03",
         youtubeId: "bmranLyq7DU",
         summary: "이 싱글은 2021년 발매된 원곡 'You'가 힙합 트랙 위에 어색한 싱잉을 얹었다는 이유로 혹평받은 이후, 딩고와 함께 정통 발라드로 재해석해 발매한 결과물이다. 힙합 리스너들에게는 다소 이례적인 시도였지만, 창법과 편곡의 방향을 완전히 재설정하며 원곡이 지녔던 약점을 상당 부분 걷어냈고, 그루비룸 멤버들조차 인정할 만큼 결과물에 대한 만족도가 높아졌다. 다만 원곡의 가사와 멜로디 라인을 크게 벗어나지 않는 선에서 편곡만 새롭게 입힌 형태이기 때문에, 완전히 새로운 곡이라기보다는 안정적인 재해석에 가까워 평작 이상 추천작 미만인 3.5점이 적절하다.",
@@ -625,6 +625,65 @@ const albums = [
                 credits: "작곡 저스디스, DOKO / 작사 저스디스",
                 desc: "항시 들어도 좋은 노래라는 설명처럼, 부담 없이 반복해서 들을 수 있는 편안한 감성을 지닌 트랙이다. '18허승'이라 불리는 저스디스 특유의 매니악한 랩 대신, 감미로운 보컬과 여유로운 톤으로 곡을 이끌어가며, 발라드 편곡이 가사 속에서 이별과 재회를 반복하는 화자의 감정선과 자연스럽게 맞아떨어진다. 원곡보다 한층 안정된 보컬 톤과 부드러운 사운드가 곡 전체의 설득력을 높이는 지점이다.",
                 youtubeId: "bmranLyq7DU"
+            }
+        ]
+    },
+    {
+        id: 9, // 필요 시 고유 ID 수정
+        artistId: 9, // 필요 시 아티스트 ID 수정
+        title: "OFOSUN",
+        coverUrl: "https://i.namu.wiki/i/2SZ9tLBIjQ5qizwp6VNBE6cpaHkoHxaIbPxnI3Ofp_eaRZLnSGvUYQlHdO39epRD9K_gQaCr2QvCAYvwo1pgNF_JPoT9AQjQFsBTqttuAb-LSr5WxrBA1X23_njxWy55SAYJlnt4Yzu4Fb2jbh172g.webp",
+        writer: "최이든",
+        type: "EP(미니앨범)",
+        genre: "Hip-Hop / R&B",
+        rating: 3.5,
+        popularity: 70,
+        releaseDate: "2022.09.01",
+        youtubeId: "",
+        summary: "고등래퍼4를 거쳐 싱글 'TREND$ETTER'로 데뷔한 OSUN이 2005년생의 나이에 내놓은 첫 EP로, 전곡을 프로듀서 기림(Kirim)과 함께 작업해 사운드의 결을 하나로 묶었다. 앨범명을 한 글자씩 나눈 듯한 트랙 구성이 컨셉을 분명하게 하고, 힙합에 R&B의 그루브와 감성을 얹은 무드가 일관되게 유지되어 6곡이 하나의 작품으로 들린다. 다만 신인 아티스트의 첫 결과물답게 곡마다 뚜렷한 킬링 파트나 파격은 다소 약해서, 평균 이상의 매력과 가능성은 충분하지만 완성형이라 하기엔 이르다.",
+        scores: [],
+        tracks: [
+            {
+                num: 1,
+                title: "O",
+                credits: "작사: OSUN / 작곡: OSUN, Reve Nasi",
+                desc: "앨범명의 첫 글자를 제목으로 삼아 EP의 문을 여는 트랙으로, 아티스트의 이름을 한 글자씩 풀어가는 여정의 출발점 역할을 한다. 기림과 함께 만든 앨범의 기본 무드를 처음으로 제시하는 도입부다.",
+                youtubeId: "Io9274dQSuI"
+            },
+            {
+                num: 2,
+                title: "F",
+                credits: "작사: OSUN / 작곡: OSUN, Reve Nasi",
+                desc: "오프닝에서 세운 분위기를 이어받아 앨범의 흐름을 안정적으로 끌고 가는 트랙이다. 제목이 알파벳 한 글자인 만큼 곡의 컨셉이 앨범 전체의 서사 속에서 읽히도록 설계되어 있다.",
+                youtubeId: "xrEFtNneiJE"
+            },
+            {
+                num: 3,
+                title: "O(1)",
+                credits: "작사: OSUN / 작곡: OSUN, Reve Nasi",
+                desc: "앨범명에 한 번 더 등장하는 글자를 다시 제목으로 가져와, 앞선 곡과 짝을 이루듯 이어지는 구성이 돋보이는 트랙이다. 같은 제목이 반복되면서 EP의 순환적인 컨셉이 한층 분명해진다.",
+                youtubeId: "vvzSMur4LKc"
+            },
+            {
+                num: 4,
+                title: "S",
+                credits: "작사: OSUN / 작곡: OSUN, Reve Nasi",
+                desc: "앨범 후반부로 넘어가는 지점에서 분위기에 변주를 주는 트랙이다. 기림과의 호흡이 유지되는 가운데 OSUN 특유의 톤이 곡의 중심을 잡아준다.",
+                youtubeId: "OmMYfMrtXyI"
+            },
+            {
+                num: 5,
+                title: "U",
+                credits: "작사: OSUN / 작곡: OSUN, Reve Nasi",
+                desc: "앨범에서 가장 대중적으로 회자되는 트랙으로, 그루브가 있는 R&B 무드와 감성적인 정서 덕분에 카페나 드라이브 플레이리스트에 자주 오르내린다. OSUN의 부드러운 톤이 곡의 분위기와 잘 맞물려, EP 안에서 접근성이 가장 높은 곡이다.",
+                youtubeId: "pzJjpzayczc"
+            },
+            {
+                num: 6,
+                title: "N",
+                credits: "작사: OSUN / 작곡: OSUN, Reve Nasi",
+                desc: "앨범명을 완성하는 마지막 글자로 EP를 닫는 트랙이다. 여섯 곡의 제목이 하나의 이름으로 합쳐지는 구성이 여운을 남기며, 첫 EP의 마침표로서 컨셉적 완결성을 부여한다.",
+                youtubeId: "CiEFhunG0tw"
             }
         ]
     }
