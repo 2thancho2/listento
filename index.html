@@ -889,10 +889,10 @@
             <div class="filter-bar">
                 <h2 style="font-size: 18px;" id="list-page-title">전체 노래</h2>
                 <select class="filter-select" id="filter-option">
-                    <option value="popular">인기순</option>
-                    <option value="recent">최신순</option>
-                    <option value="score">별점순 (평점순)</option>
-                </select>
+    					<option value="recent">최신순</option>
+    					<option value="popular">인기순</option>
+    					<option value="score">평점순</option>
+				</select>
             </div>
             <div class="album-grid" id="grid-list"></div>
         </main>
@@ -1092,23 +1092,27 @@ listen to는 장르를 가리지 않고, 선발된 리스너들이 직접 듣고
             if (e.target === playerModal) closePlayer(e);
         });
 
-        function createCardHtml(album) {
-            const artist = getArtist(album.artistId);
-            const safeTitle = escapeAttr(album.title);
-            const safeArtist = escapeAttr(artist.name);
-            const safeYoutubeId = escapeAttr(album.youtubeId || ''); // 카드의 재생 버튼 = 앨범 대표 링크
+        // 앨범 커버 에러 방지 처리 및 대체 UI가 확실히 동작하도록 개선한 createCardHtml 함수
+		function createCardHtml(album) {
+    			const artist = getArtist(album.artistId);
+    			const safeTitle = escapeAttr(album.title);
+    			const safeArtist = escapeAttr(artist.name);
+    			const safeYoutubeId = escapeAttr(album.youtubeId || '');
 
-            return `
-                <div class="album-card" onclick="openDetail(${album.id})">
-                    <div class="album-cover-wrapper tilt-card">
-                        <img class="album-cover-img" src="${album.coverUrl}" alt="${safeTitle}" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
-                        <button class="card-play-btn" title="음원 재생" onclick="playYoutube(event, '${safeArtist} - ${safeTitle}', '${safeYoutubeId}')">▶</button>
-                    </div>
-                    <div class="album-name">${album.title}</div>
-                    <div class="artist-name">${artist.name}</div>
-                </div>
-            `;
-        }
+    			// 이미지가 없거나 로드 실패했을 때 보여줄 깔끔한 기본 대체 박스 (외부 서버 의존 제거)
+    			const fallbackImageOnError = "this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22150%22 height=%22150%22><rect width=%22100%22 height=%22100%22 fill=%22%23222%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%23888%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2214%22>No Image</text></svg>';";
+
+    			return `
+       			 <div class="album-card" onclick="openDetail(${album.id})">
+           			 <div class="album-cover-wrapper tilt-card">
+                			<img class="album-cover-img" src="${album.coverUrl}" alt="${safeTitle}" onerror="${fallbackImageOnError}">
+                			<button class="card-play-btn" title="음원 재생" onclick="playYoutube(event, '${safeArtist} - ${safeTitle}', '${safeYoutubeId}')">▶</button>
+            			</div>
+            			<div class="album-name">${album.title}</div>
+            			<div class="artist-name">${artist.name}</div>
+        			</div>
+    			`;
+		}
 
         function initHomeView() {
             const recentContainer = document.getElementById('recent-list');
@@ -1127,17 +1131,30 @@ listen to는 장르를 가리지 않고, 선발된 리스너들이 직접 듣고
             document.getElementById('intro-body').innerText = siteIntro.body || '';
         }
 
-        function applyFilter() {
-            const filterValue = filterSelect.value;
-            if (filterValue === 'popular') {
-                activeAlbumList.sort((a, b) => b.popularity - a.popularity);
-            } else if (filterValue === 'recent') {
-                activeAlbumList.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
-            } else if (filterValue === 'score') {
-                activeAlbumList.sort((a, b) => b.rating - a.rating);
-            }
-            renderGrid(activeAlbumList);
-        }
+        // 안전하고 일관된 정렬을 지원하는 applyFilter 함수
+		function applyFilter() {
+    			const filterValue = filterSelect.value;
+    
+    			// 원본 배열이 변형되지 않도록 복사 후 정렬 (안정적인 정렬을 위해 2차 기준 추가)
+    			activeAlbumList.sort((a, b) => {
+        			if (filterValue === 'recent') {
+           			 // 최신순: 날짜 기준 내림차순 (날짜가 같거나 없으면 id 또는 제목 내림차순으로 안정성 확보)
+            			const dateA = new Date(a.releaseDate || 0).getTime();
+            			const dateB = new Date(b.releaseDate || 0).getTime();
+            			if (dateB !== dateA) return dateB - dateA;
+            			return b.id - a.id;
+        			} else if (filterValue === 'popular') {
+            			// 인기순: popularity 기준 내림차순
+            			return (b.popularity || 0) - (a.popularity || 0);
+        			} else if (filterValue === 'score') {
+            			// 평점순: rating 기준 내림차순
+            			return (b.rating || 0) - (a.rating || 0);
+        			}
+        			return 0;
+    			});
+
+    			renderGrid(activeAlbumList);
+		}
 
         function renderGrid(list) {
             const gridContainer = document.getElementById('grid-list');
