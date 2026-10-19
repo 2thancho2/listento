@@ -41,7 +41,7 @@ const albums = [
         id: 1,
         artistId: 1,
         title: "TEAM BABY",
-        coverUrl: "https://i.namu.wiki/i/hvE2c6LejUdEs3YqjmkVKjofpgJe_KtD2KhS32L9Q_H8CxmQIPV5Q9DoBPEnu703yxspC72gt59urZ9tx56rxtDyUgWmGU1Tk7oYljnpN860EMEdspa8IkbwGkuBsSEHpSYKRq8Y3hDUyRvdVlxeYg.webp",
+        coverUrl: "https://github.com/2thancho2/2than-MP3-photo/blob/main/teambaby.webp?raw=true",
         writer: "김민종", // 작성 리스너
         type: "앨범",
         genre: "인디 록",
@@ -132,7 +132,7 @@ const albums = [
         genre: "R&B,Soul",
         rating: 3.5, // 앨범 평점 (트랙에는 평점 없음)
         popularity: 70,
-        releaseDate: "2026.05.01",
+        releaseDate: "2026-05-01",
         youtubeId: "JUhtTCIZ0jc", // 앨범 대표 재생 링크
         summary: "솔직한 짝사랑 서사가 다섯 곡에 잘 녹아든 첫 미니앨범. 타이틀 '파란불'을 비롯해 귀에 붙는 트랙들이 있지만, 곡 간 완성도 기복이 있고 프로덕션 색깔이 다소 무난한 R&B 문법에 머무른다. 평균 이상은 확실히 하지만 강렬한 개성으로 각인되기엔 한 끗 아쉬운, 양호한 데뷔작.",
         scores: [
@@ -180,13 +180,13 @@ const albums = [
         id: 3,
         artistId: 3,
         title: "January Never Dies",
-        coverUrl: "https://i.namu.wiki/i/2Y91AwZzDSfQvFGqhlZWb0xq8rqXE3i7saOy6eD3tVAsHbA_CihgC1G_T4Bj9F3_67qcO3GvhI-WPT6Vi1FFslYpWAiIKOoXaijVEIfeLkWglXJrGiwDxIqzm9DCFh0pVOA4uk6N3n8cYoRKhopAlQ.webp",
+        coverUrl: "https://github.com/2thancho2/2than-MP3-photo/blob/main/janusaryneverdies.webp?raw=true",
         writer: "최이든", // 작성 리스너
         type: "정규",
         genre: "Alternative K-pop",
         rating: 4.0, // 앨범 평점 (트랙에는 평점 없음)
         popularity: 80,
-        releaseDate: "2023.10.19",
+        releaseDate: "2023-10-19",
         youtubeId: "WnX3h7RnaGU", // 앨범 대표 재생 링크
         summary: "그동안 컴필레이션 형태의 결과물을 내놓던 바밍타이거가 처음으로 '팀'으로서 완성한 정규 앨범이다. 펑크, 힙합, 아트팝을 종잡을 수 없이 넘나들면서도 11인 크루 각자의 개성을 지우지 않고, 오히려 그 이질감 자체를 앨범의 정체성으로 삼은 점이 인상적이다. 'SEXY NUKIM', 'Trust Yourself', 'SOS' 같은 선공개곡들이 앨범 안에서 각각의 자리를 찾으며 전체 흐름에 자연스럽게 녹아들고, 인터루드 트랙들이 곡과 곡 사이의 급격한 장르 전환을 매끄럽게 이어주는 구조적 설계도 돋보인다. 다만 워낙 많은 인물과 색깔이 한 앨범에 밀집된 탓에 후반부로 갈수록 다소 산만하게 흩어지는 인상을 주는 구간이 있어, 완벽한 유기성까지는 도달하지 못했다. 그럼에도 케이팝이라는 틀 안에서 이만큼 이질적이고 대담한 실험을 설득력 있게 밀어붙인 사례는 드물다는 점에서, 장르 팬을 넘어 대중적으로도 추천할 만한 앨범이다.",
         scores: [
@@ -298,7 +298,7 @@ const albums = [
         id: 4,
         artistId: 4,
         title: "Low Rider",
-        coverUrl: "https://i.namu.wiki/i/Uge1ssBKoiC4CFWYnsGPv_5PFgD4LIkMa6ZoqGzl6NhrHvcB1SRjAm91vrRrcOREwb2Nvka-kVdbeukZ2XlMXlC5gRpzq9fiPMs8cskkQrJLLmqS-umm2gQdGlMq28uzfev7UCsXvqGQpwoJjkIRZA.webp",
+        coverUrl: "https://github.com/2thancho2/2than-MP3-photo/blob/main/lowrider.webp?raw=true",
         writer: "김도영 최이든", // 작성 리스너
         type: "싱글",
         genre: "Hip-Hop / Rap",
@@ -324,13 +324,13 @@ const albums = [
         id: 5, // 필요 시 고유 ID 수정
         artistId: 5, // 필요 시 아티스트 ID 수정
         title: "환상의나라: 지오르지브 대장과 구닥다리 영웅들",
-        coverUrl: "https://i.namu.wiki/i/m1ux1NzPbqtfxfxZZ-Rcq1QcTMg_r2yaVN9p6NyEYj6RiWXqDndPBxIVNnUZMW2cKoR-TyaF8c35UfIvhnasb9EQh4EVTxMTXq68s40np5hOiyzLy9vPYTx3qysXR3YfFedPWs_yvv41jhjyZSYEOQ.webp",
+        coverUrl: "https://github.com/2thancho2/2than-MP3-photo/blob/main/%E1%84%92%E1%85%AA%E1%86%AB%E1%84%89%E1%85%A1%E1%86%BC%E1%84%8B%E1%85%B4%E1%84%82%E1%85%A1%E1%84%85%E1%85%A1.webp?raw=true",
         writer: "한승구 최이든",
         type: "정규",
         genre: "록/인디팝",
         rating: 4.0,
         popularity: 80,
-        releaseDate: "2021.07.28",
+        releaseDate: "2021-07-28",
         youtubeId: "DP8DGmD_DWc",
         summary: "잔나비 본연의 하드록·인디밴드 문법에서 벗어나 한 편의 동화 같은 세계관을 앨범 전체에 걸쳐 밀도 있게 구현해낸 작품이다. 스트링과 피아노를 적극적으로 끌어들인 오케스트레이션, 록 오페라적 구성, 시티팝의 세련미가 한 앨범 안에서 자연스럽게 교차하며 '환상의 나라'라는 컨셉을 입체적으로 완성한다. 중반부 몇몇 트랙에서는 서사를 위한 브릿지 역할에 무게가 실리며 다소 늘어지는 구간이 있지만, '밤의공원'과 '외딴섬 로맨틱' 두 곡이 앨범의 정점에서 발휘하는 완성도는 잔나비 커리어를 통틀어도 손꼽을 만하다. 하나의 이야기로서의 통일감과 개별 트랙으로서의 완성도를 동시에 놓치지 않은, 밴드의 야심과 실력이 균형을 이룬 추천작이다.",
         scores: [],
@@ -432,13 +432,13 @@ const albums = [
         id: 6, // 필요 시 고유 ID 수정
         artistId: 6, // 필요 시 아티스트 ID 수정
         title: "닿는 순간",
-        coverUrl: "https://i.namu.wiki/i/pbBQGNk3YhdrDLZKN-1tOHofyQgX_tyahD01ooTocTQY8tpQlbYoPk84lt84sBjSuP4DMKEygIGokuWfRW0XGHEzgN2e6nn4mnQhFGtfFqgyye0MpxqxgchEUrP1hVzAiRgUyYvmpZKLOz4h5yhCeA.webp",
+        coverUrl: "https://github.com/2thancho2/2than-MP3-photo/blob/main/%E1%84%83%E1%85%A1%E1%87%82%E1%84%82%E1%85%B3%E1%86%AB%E1%84%89%E1%85%AE%E1%86%AB%E1%84%80%E1%85%A1%E1%86%AB.webp?raw=true",
         writer: "박건률 최이든",
         type: "EP",
         genre: "Hip-Hop / Rap",
         rating: 3.5,
         popularity: 80,
-        releaseDate: "2018.06.11",
+        releaseDate: "2018-06-11",
         youtubeId: "sUlOIz5372w",
         summary: "밑바닥에서 성공까지의 창모의 이야기를 담은 서사형 앨범으로, 성공과 사랑이라는 두 축이 일관되게 유지되며 창모 특유의 감성이 짙게 배어난다. 다만 'Holy God'이나 'Self made Orange'처럼 거칠고 직설적인 트랙과 'Interlude', '라일락'처럼 섬세하고 서정적인 트랙 사이의 온도차가 크고, 곡들 간의 완성도 기복도 뚜렷해 앨범 전체의 통일감보다는 개별 트랙의 매력이 두드러진다. 확실한 개성과 몇몇 인상적인 트랙을 갖췄지만 앨범으로서의 밀도는 다소 평이하다.",
         scores: [
@@ -514,13 +514,13 @@ const albums = [
         id: 7, // 필요 시 고유 ID 수정
         artistId: 7, // 필요 시 아티스트 ID 수정
         title: "To See the Next Part of the Dream",
-        coverUrl: "https://i.namu.wiki/i/l1ZKsN_UEyly82kN6UvTYLLwDNUL6Q-ZMjDjcQ6876YaCLkqKlmfu36wJcBCA377sqQl3yJqjxfGfNiBOXyBBes6OKwnImKK3N6TsO28rcrkdp07n4Q9eyBkyAgRPRxVRQ2w-XeYtZ2AqsxAIvi6sQ.webp",
+        coverUrl: "https://github.com/2thancho2/2than-MP3-photo/blob/main/to.webp?raw=true",
         writer: "이시훈",
         type: "정규",
         genre: "Shoegaze / Lo-Fi / Indie Rock",
         rating: 4.5,
         popularity: 80,
-        releaseDate: "2021.02.23",
+        releaseDate: "2021-02-23",
         youtubeId: "4bGkGwbqQS4",
         summary: "방구석 홈레코딩의 한계를 오히려 무기로 만들어, 청춘의 고립·불안·자기혐오를 거대한 슈게이즈 사운드로 변환한 2021년 한국 인디의 대표작이다. 10곡이 61분 넘게 이어지는 만큼 러닝타임은 길지만, 각 곡이 독립적으로 놀지 않고 하나의 감정선을 공유하며 앨범 전체가 유기적인 서사로 완결된다. '흰천장', '청춘반란', '격변의 시대' 등 대곡들이 감정의 밀도를 극한까지 밀어붙이면서도 늘어지지 않고, 'Chicken'이나 '엑스트라 일대기' 같은 짧은 트랙들이 완급을 조절하며 앨범의 리듬을 지탱한다. 다만 트랙 사이 정서가 다소 반복적으로 느껴지는 구간이 있어 완전한 만점에는 살짝 못 미치지만, 완성도와 개성, 시대적 영향력을 모두 갖춘 '올해의 앨범'급 작품이라는 점에서 4.5점을 부여한다.",
         scores: [
@@ -608,13 +608,13 @@ const albums = [
         id: 8, // 필요 시 고유 ID 수정
         artistId: 8, // 필요 시 아티스트 ID 수정
         title: "찢어졌다 붙었다 다시 (You Remix)",
-        coverUrl: "https://i.namu.wiki/i/Sw5ybqNp9lF1X0Ve7FLoAFPHUNuX5ajnI9BY5PhtuOOFZzurdNYi_x2-EKaHOJ6ywUSR2J1UgzuSnVsAAXvt0ZcPfRiQs1BD6QDrzp-OfHv_lH_l1gsbjNM8L4LQbx53q5BjJ3P2GPZE2xyMXtTmOA.webp",
+        coverUrl: "https://github.com/2thancho2/2than-MP3-photo/blob/main/%E1%84%8D%E1%85%B5%E1%86%BD%E1%84%8B%E1%85%A5%E1%84%8C%E1%85%A7%E1%86%BB%E1%84%83%E1%85%A1%E1%84%87%E1%85%AE%E1%87%80%E1%84%8B%E1%85%A5%E1%86%BB%E1%84%83%E1%85%A1%E1%84%83%E1%85%A1%E1%84%89%E1%85%B5youremix.webp?raw=true",
         writer: "김도영 최이든",
         type: "싱글",
         genre: "Ballad",
         rating: 3.5,
         popularity: 70,
-        releaseDate: "2022.08.03",
+        releaseDate: "2022-08-03",
         youtubeId: "bmranLyq7DU",
         summary: "이 싱글은 2021년 발매된 원곡 'You'가 힙합 트랙 위에 어색한 싱잉을 얹었다는 이유로 혹평받은 이후, 딩고와 함께 정통 발라드로 재해석해 발매한 결과물이다. 힙합 리스너들에게는 다소 이례적인 시도였지만, 창법과 편곡의 방향을 완전히 재설정하며 원곡이 지녔던 약점을 상당 부분 걷어냈고, 그루비룸 멤버들조차 인정할 만큼 결과물에 대한 만족도가 높아졌다. 다만 원곡의 가사와 멜로디 라인을 크게 벗어나지 않는 선에서 편곡만 새롭게 입힌 형태이기 때문에, 완전히 새로운 곡이라기보다는 안정적인 재해석에 가까워 평작 이상 추천작 미만인 3.5점이 적절하다.",
         scores: [],
@@ -632,13 +632,13 @@ const albums = [
         id: 9, // 필요 시 고유 ID 수정
         artistId: 9, // 필요 시 아티스트 ID 수정
         title: "OFOSUN",
-        coverUrl: "https://i.namu.wiki/i/2SZ9tLBIjQ5qizwp6VNBE6cpaHkoHxaIbPxnI3Ofp_eaRZLnSGvUYQlHdO39epRD9K_gQaCr2QvCAYvwo1pgNF_JPoT9AQjQFsBTqttuAb-LSr5WxrBA1X23_njxWy55SAYJlnt4Yzu4Fb2jbh172g.webp",
+        coverUrl: "https://github.com/2thancho2/2than-MP3-photo/blob/main/ofosun.webp?raw=true",
         writer: "최이든",
         type: "EP(미니앨범)",
         genre: "Hip-Hop / R&B",
         rating: 3.5,
         popularity: 70,
-        releaseDate: "2022.09.01",
+        releaseDate: "2022-09-01",
         youtubeId: "",
         summary: "고등래퍼4를 거쳐 싱글 'TREND$ETTER'로 데뷔한 OSUN이 2005년생의 나이에 내놓은 첫 EP로, 전곡을 프로듀서 기림(Kirim)과 함께 작업해 사운드의 결을 하나로 묶었다. 앨범명을 한 글자씩 나눈 듯한 트랙 구성이 컨셉을 분명하게 하고, 힙합에 R&B의 그루브와 감성을 얹은 무드가 일관되게 유지되어 6곡이 하나의 작품으로 들린다. 다만 신인 아티스트의 첫 결과물답게 곡마다 뚜렷한 킬링 파트나 파격은 다소 약해서, 평균 이상의 매력과 가능성은 충분하지만 완성형이라 하기엔 이르다.",
         scores: [],
