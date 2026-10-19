@@ -886,7 +886,15 @@
         <main id="view-filter" class="view">
             <div id="artist-profile-container"></div>
 
-           
+            <div class="filter-bar">
+                <h2 style="font-size: 18px;" id="list-page-title">전체 노래</h2>
+                <select class="filter-select" id="filter-option">
+    					<option value="recent">최신순</option>
+    					<option value="popular">인기순</option>
+    					<option value="score">평점순</option>
+				</select>
+            </div>
+            
             <div class="album-grid" id="grid-list"></div>
         </main>
 
