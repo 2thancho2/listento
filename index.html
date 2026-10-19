@@ -889,6 +889,9 @@
             <div class="filter-bar">
                 <h2 style="font-size: 18px;" id="list-page-title">전체 노래</h2>
                 <select class="filter-select" id="filter-option">
+				    <option value="release">발매일순</option>
+				    <option value="added">등록일순</option>
+				    <option value="popular">인기순</option>
 				</select>
             </div>
             
@@ -1129,29 +1132,34 @@ listen to는 장르를 가리지 않고, 선발된 리스너들이 직접 듣고
             document.getElementById('intro-body').innerText = siteIntro.body || '';
         }
 
-        // 안전하고 일관된 정렬을 지원하는 applyFilter 함수
-		function applyFilter() {
-    			const filterValue = filterSelect.value;
-    
-    			// 원본 배열이 변형되지 않도록 복사 후 정렬 (안정적인 정렬을 위해 2차 기준 추가)
-    			activeAlbumList.sort((a, b) => {
-        			if (filterValue === 'recent') {
-           			 // 최신순: 날짜 기준 내림차순 (날짜가 같거나 없으면 id 또는 제목 내림차순으로 안정성 확보)
-            			const dateA = new Date(a.releaseDate || 0).getTime();
-            			const dateB = new Date(b.releaseDate || 0).getTime();
-            			if (dateB !== dateA) return dateB - dateA;
-            			return b.id - a.id;
-        			} else if (filterValue === 'popular') {
-            			// 인기순: popularity 기준 내림차순
-            			return (b.popularity || 0) - (a.popularity || 0);
-        			} else if (filterValue === 'score') {
-            			// 평점순: rating 기준 내림차순
-            			return (b.rating || 0) - (a.rating || 0);
-        			}
-        			return 0;
-    			});
-
-    			renderGrid(activeAlbumList);
+        function applyFilter() {
+		    const filterValue = filterSelect.value;
+		
+		    activeAlbumList.sort((a, b) => {
+		        if (filterValue === 'release') {
+		            // 발매일순: 발매일 최신이 위로
+		            const dateA = new Date(a.releaseDate || 0).getTime();
+		            const dateB = new Date(b.releaseDate || 0).getTime();
+		            if (dateB !== dateA) return dateB - dateA;
+		            return b.id - a.id;
+		        } else if (filterValue === 'added') {
+		            // 등록일순: 사이트에 나중에 등록된 앨범이 위로
+		            // albums.js에 addedDate가 있으면 그 값을, 없으면 id(클수록 나중 등록)를 사용
+		            const addA = a.addedDate ? new Date(a.addedDate).getTime() : 0;
+		            const addB = b.addedDate ? new Date(b.addedDate).getTime() : 0;
+		            if (addB !== addA) return addB - addA;
+		            return b.id - a.id;
+		        } else if (filterValue === 'popular') {
+		            // 인기순: popularity 높은 순
+		            if ((b.popularity || 0) !== (a.popularity || 0)) {
+		                return (b.popularity || 0) - (a.popularity || 0);
+		            }
+		            return b.id - a.id;
+		        }
+		        return 0;
+		    });
+		
+		    renderGrid(activeAlbumList);
 		}
 
         function renderGrid(list) {
