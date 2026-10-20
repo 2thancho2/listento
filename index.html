@@ -26,12 +26,13 @@
         }
 
         body {
-            background-color: var(--bg-main);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+		    background-color: var(--bg-main);
+		    color: var(--text-primary);
+		    min-height: 100vh;
+		    display: flex;
+		    flex-direction: column;
+		    overflow-x: hidden;   /* ← 이 줄 추가 */
+		}
 
         /* Header */
         header {
@@ -261,42 +262,85 @@
             text-overflow: ellipsis;
         }
 
-        .artist-search-card {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 24px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .artist-search-card:hover {
-            background-color: var(--bg-hover);
-        }
-
-        .artist-avatar-sm {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            background-color: #333;
-        }
+        /* 풀폭 프로필 배너 (아티스트 검색 / 리스너 공용) */
+		.profile-banner {
+		    width: 100vw;
+		    margin-left: calc(50% - 50vw);   /* 컨테이너 밖으로 화면 끝까지 확장 */
+		    margin-top: -24px;               /* .container 위쪽 padding 상쇄 → 헤더에 딱 붙음 */
+		    margin-bottom: 32px;
+		    /* 좌우 패딩: 내용물은 960px 컨테이너 폭에 맞춰 정렬 */
+		    padding: 48px max(24px, calc((100vw - 928px) / 2));
+		    background: linear-gradient(180deg, #2f2f2f 0%, var(--bg-main) 100%);
+		    border-bottom: 1px solid var(--border-color);
+		    display: flex;
+		    align-items: center;
+		    gap: 28px;
+		}
+		
+		.profile-banner.clickable {
+		    cursor: pointer;
+		    transition: filter 0.2s;
+		}
+		
+		.profile-banner.clickable:hover {
+		    filter: brightness(1.2);
+		}
+		
+		.profile-banner-img {
+		    width: 120px;
+		    height: 120px;
+		    border-radius: 50%;
+		    object-fit: cover;
+		    background-color: #222;
+		    border: 2px solid var(--text-primary);
+		    flex-shrink: 0;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    font-size: 44px;
+		    font-weight: 800;
+		    color: var(--text-secondary);
+		}
+		
+		.profile-banner-label {
+		    font-size: 12px;
+		    color: var(--text-secondary);
+		}
+		
+		.profile-banner-name {
+		    font-size: 40px;
+		    font-weight: 900;
+		    line-height: 1.1;
+		    margin: 6px 0;
+		}
+		
+		.profile-banner-sub {
+		    font-size: 14px;
+		    color: var(--text-secondary);
+		}
+		
+		@media (max-width: 640px) {
+		    .profile-banner {
+		        flex-direction: column;
+		        text-align: center;
+		        padding-top: 36px;
+		        padding-bottom: 36px;
+		    }
+		    .profile-banner-name { font-size: 28px; }
+		}
 
         .spotify-artist-header {
-            position: relative;
-            background: linear-gradient(180deg, #2a2a2a 0%, #121212 100%);
-            border-radius: 12px;
-            padding: 36px 32px 24px 32px;
-            margin-bottom: 32px;
-            display: flex;
-            align-items: flex-end;
-            gap: 28px;
-            border: 1px solid var(--border-color);
-        }
+		    position: relative;
+		    width: 100vw;
+		    margin-left: calc(50% - 50vw);
+		    margin-bottom: 32px;
+		    padding: 48px max(24px, calc((100vw - 928px) / 2));
+		    background: linear-gradient(180deg, #2f2f2f 0%, var(--bg-main) 100%);
+		    border-bottom: 1px solid var(--border-color);
+		    display: flex;
+		    align-items: flex-end;
+		    gap: 28px;
+		}
 
         .spotify-artist-img {
             width: 130px;
@@ -853,27 +897,43 @@
         }
 		/* ==================== 리스너 탭 ==================== */
 		.listener-grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-			gap: 16px;
+		    display: flex;
+		    flex-wrap: wrap;
+		    justify-content: center;   /* 마지막 줄이 4명 미만이어도 가운데 정렬 */
+		    gap: 28px 24px;            /* 세로 28px, 가로 24px */
+		    padding: 8px 0 24px;
 		}
 		
 		.listener-card {
-			background-color: var(--bg-card);
-			border: 1px solid var(--border-color);
-			border-radius: 8px;
-			padding: 20px 16px;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			text-align: center;
-			gap: 10px;
-			transition: background-color 0.2s, transform 0.2s;
+		    /* 한 줄에 4명: (전체 너비 - 가로 간격 3개) / 4 */
+		    width: calc((100% - 24px * 3) / 4);
+		    background-color: var(--bg-card);
+		    border: 1px solid var(--border-color);
+		    border-radius: 10px;
+		    padding: 28px 20px;
+		    display: flex;
+		    flex-direction: column;
+		    align-items: center;
+		    text-align: center;
+			cursor: pointer;
+		    gap: 14px;
+		    transition: background-color 0.2s, transform 0.2s;
 		}
 		
 		.listener-card:hover {
-			background-color: var(--bg-hover);
-			transform: translateY(-4px);
+		    background-color: var(--bg-hover);
+		    transform: translateY(-4px);
+		}
+		
+		/* 화면이 좁아지면 줄당 인원 줄이기 */
+		@media (max-width: 860px) {
+		    .listener-card { width: calc((100% - 24px * 2) / 3); }
+		}
+		@media (max-width: 640px) {
+		    .listener-card { width: calc((100% - 24px) / 2); }
+		}
+		@media (max-width: 400px) {
+		    .listener-card { width: 100%; }
 		}
 		
 		.listener-photo {
@@ -1032,6 +1092,7 @@
         </main>
 
         <!-- 뷰 5: 소개 -->
+                <!-- 뷰 5: 소개 -->
         <main id="view-intro" class="view">
             <div class="intro-box">
                 <h2 id="intro-title">소개</h2>
@@ -1039,19 +1100,19 @@
                 <div class="intro-body" id="intro-body"></div>
             </div>
         </main>
-    </div>
 
-	<!-- 뷰 6: 리스너 -->
-	<main id="view-listener" class="view">
-	    <div class="intro-box" style="margin-bottom: 32px;">
-	        <h2>리스너 신청 방법</h2>
-	        <div class="intro-sub">Listen To와 함께할 리스너를 모집합니다</div>
-	        <div class="intro-body" id="listener-apply-body"></div>
-	    </div>
-	
-	    <h2 class="section-title">현재 리스너</h2>
-	    <div class="listener-grid" id="listener-grid"></div>
-	</main>
+        <!-- 뷰 6: 리스너 (container 안으로 이동됨) -->
+        <main id="view-listener" class="view">
+            <div class="intro-box" style="margin-bottom: 40px;">
+                <h2>리스너 신청 방법</h2>
+                <div class="intro-sub">Listen To와 함께할 리스너를 모집합니다</div>
+                <div class="intro-body" id="listener-apply-body"></div>
+            </div>
+
+            <h2 class="section-title" style="text-align: center; margin-bottom: 24px;">현재 리스너</h2>
+            <div class="listener-grid" id="listener-grid"></div>
+        </main>
+    </div>   <!-- ← .container 닫힘 (여기로 이동) -->
 
     <!-- 모달 -->
     <div class="modal-overlay" id="player-modal">
@@ -1126,12 +1187,15 @@ listen to는 장르를 가리지 않고, 선발된 리스너들이 직접 듣고
 		            : `<div class="listener-photo">${escapeAttr(l.name.charAt(0))}</div>`;
 		
 		        const albumLink = (l.albumId && albums.find(a => a.id === l.albumId))
-		            ? `<button class="listener-analysis-link" onclick="navigate('/music/${Number(l.albumId)}')">앨범 리뷰 보기 →</button>`
-		            : '';
-		
-		        return `
-		            <div class="listener-card">
-		                ${photo}
+				    ? `<button class="listener-analysis-link" onclick="event.stopPropagation(); navigate('/music/${Number(l.albumId)}')">앨범 리뷰 보기 →</button>`
+				    : '';
+				
+				// 이름에 작은따옴표가 있어도 onclick이 깨지지 않도록 처리
+				const listenerUrl = '/listeners?name=' + encodeURIComponent(l.name).replace(/'/g, '%27');
+				
+				return `
+				    <div class="listener-card" onclick="navigate('${listenerUrl}')">
+				        ${photo}
 		                <div class="listener-name">${name}</div>
 		                <div class="listener-pledge">"${escapeAttr(l.pledge)}"</div>
 		                <div class="listener-analysis">
@@ -1144,6 +1208,15 @@ listen to는 장르를 가리지 않고, 선발된 리스너들이 직접 듣고
 		    }).join('');
 		}
 
+		// writer 문자열을 이름 배열로 변환
+		// "홍길동 김철수", "홍길동, 김철수", "홍길동/김철수", "홍길동&김철수" 모두 지원
+		function splitWriters(writer) {
+		    return String(writer || '')
+		        .split(/[\s,\/&·、]+/)
+		        .map(w => w.trim())
+		        .filter(Boolean);
+		}
+		
         // ---- 아티스트 조회 헬퍼 (id로 이름/사진을 한 곳에서 관리) ----
         function getArtist(artistId) {
             return artists.find(a => a.id === artistId) || { id: -1, name: "알 수 없는 아티스트", imgUrl: "" };
@@ -1235,15 +1308,15 @@ function showMusicList(rawQuery) {
                 : '-';
 
             artistProfileContainer.innerHTML = `
-                <div class="artist-search-card" onclick="navigate('/artist/${matchedArtist.id}')">
-                    <img class="artist-avatar-sm" src="${matchedArtist.imgUrl}" alt="${escapeAttr(matchedArtist.name)}" onerror="this.src='https://via.placeholder.com/60?text=Artist'">
-                    <div>
-                        <div style="font-size: 12px; color: var(--text-secondary);">아티스트 프로필보기 →</div>
-                        <div style="font-size: 18px; font-weight: bold;">${matchedArtist.name}</div>
-                        <div style="font-size: 12px; color: var(--text-secondary); margin-top:2px;">등록 앨범 ${artistAlbums.length}개 | 평균 별점 ★ ${avgRating}</div>
-                    </div>
-                </div>
-            `;
+			    <div class="profile-banner clickable" onclick="navigate('/artist/${matchedArtist.id}')">
+			        <img class="profile-banner-img" src="${matchedArtist.imgUrl}" alt="${escapeAttr(matchedArtist.name)}" onerror="this.src='https://via.placeholder.com/120?text=Artist'">
+			        <div>
+			            <div class="profile-banner-label">아티스트 · 프로필 보기 →</div>
+			            <div class="profile-banner-name">${matchedArtist.name}</div>
+			            <div class="profile-banner-sub">등록 앨범 ${artistAlbums.length}개 | 평균 별점 ★ ${avgRating}</div>
+			        </div>
+			    </div>
+			`;
         } else {
             artistProfileContainer.innerHTML = '';
         }
@@ -1254,6 +1327,44 @@ function showMusicList(rawQuery) {
     switchView('filter');
 }
 
+function showListenerAlbums(name) {
+    const listener = listeners.find(l => l.name === name);
+    if (!listener) {
+        navigate('/listeners', true);   // 없는 리스너면 리스너 목록으로
+        return;
+    }
+
+    searchInput.value = '';
+    activeAlbumList = albums.filter(a => splitWriters(a.writer).includes(name));
+
+    const safeName = escapeAttr(listener.name);
+	const photo = listener.imgUrl
+	    ? `<img class="profile-banner-img" src="${escapeAttr(listener.imgUrl)}" alt="${safeName}">`
+	    : `<div class="profile-banner-img">${escapeAttr(listener.name.charAt(0))}</div>`;
+	
+	artistProfileContainer.innerHTML = `
+	    <div class="profile-banner">
+	        ${photo}
+	        <div>
+	            <div class="profile-banner-label">리스너</div>
+	            <div class="profile-banner-name">${safeName}</div>
+	            <div class="profile-banner-sub" style="color: var(--accent-color);">"${escapeAttr(listener.pledge)}"</div>
+	            <div class="profile-banner-sub" style="margin-top: 6px;">작성한 앨범 ${activeAlbumList.length}개</div>
+	        </div>
+	    </div>
+	`;
+
+    document.getElementById('list-page-title').innerText =
+        `${listener.name}님이 작성한 앨범 (${activeAlbumList.length})`;
+
+    applyFilter();
+    switchView('filter');
+
+    // 상단 메뉴 강조를 '노래'가 아니라 '리스너'로
+    navSong.classList.remove('active');
+    navListener.classList.add('active');
+}
+		
 function renderRoute() {
     const { path, params } = parseLocation();
     closePlayer(); // 화면 이동 시 재생 중인 영상 모달 닫기
@@ -1266,8 +1377,10 @@ function renderRoute() {
     } else if (path === '/intro') {
         switchView('intro');
     } else if (path === '/listeners') {
-        switchView('listener');
-    } else if ((m = path.match(/^\/music\/(\d+)$/))) {
+	    const listenerName = params.get('name');
+	    if (listenerName) showListenerAlbums(listenerName);
+	    else switchView('listener');
+	} else if ((m = path.match(/^\/music\/(\d+)$/))) {
         const id = Number(m[1]);
         if (albums.some(a => a.id === id)) openDetail(id);
         else navigate('/music', true);
